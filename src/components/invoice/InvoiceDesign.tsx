@@ -428,7 +428,7 @@ export const InvoiceDesign: React.FC<InvoiceDesignProps> = ({
             <foreignObject 
               x="10" y="5" width="344" height="100"
               dangerouslySetInnerHTML={{
-                __html: `<div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 10px; color: #555; text-align: right; font-family: Tajawal, sans-serif; white-space: pre-wrap; word-break: break-word; line-height: 1.6;">${notes.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`
+                __html: `<div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 10px; color: #555; text-align: right; font-family: Tajawal, sans-serif; white-space: pre-wrap; word-break: break-word; line-height: 1.6;">${(notes || '').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`
               }}
             />
             {designMode && <text x="375" y="0" fontSize="10" fill="#ef4444" style={{cursor:'pointer'}} onClick={() => onToggleField?.('notes_sec')}>×</text>}
