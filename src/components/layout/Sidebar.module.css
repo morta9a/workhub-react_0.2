@@ -138,3 +138,50 @@
   border-top: 1px solid var(--border);
   flex-shrink: 0;
 }
+
+/* ══════ MOBILE DRAWER ══════ */
+.overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 40;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
+    z-index: 50;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Handle RTL/LTR slide direction natively */
+  :global([dir="rtl"]) .sidebar {
+    right: 0;
+    transform: translateX(100%);
+    border-inline-start: none;
+    border-left: 1px solid var(--border);
+  }
+  
+  :global([dir="ltr"]) .sidebar {
+    left: 0;
+    transform: translateX(-100%);
+    border-inline-start: none;
+    border-right: 1px solid var(--border);
+  }
+
+  :global([dir="rtl"]) .sidebar.open,
+  :global([dir="ltr"]) .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  }
+}

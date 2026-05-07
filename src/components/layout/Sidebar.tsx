@@ -11,7 +11,12 @@ const badgeClass: Record<string, string> = {
   green:  styles.badgeGreen,  coral: styles.badgeCoral,
 };
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { 
@@ -21,7 +26,8 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className={styles.sidebar}>
+      {isOpen && <div className={styles.overlay} onClick={onClose} />}
+      <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
         <nav className={styles.nav}>
           {CATEGORIES.map((cat) => {
             const items = NAV_ITEMS.filter((n) => n.category === cat);
@@ -42,6 +48,7 @@ export function Sidebar() {
 
                   return (
                     <NavLink key={item.id} to={item.path}
+                      onClick={onClose}
                       className={({ isActive }) => [styles.navItem, isActive ? styles.active : ''].join(' ')}>
                       <span className={styles.navIcon}>{item.icon}</span>
                       <span className={styles.navLabel}>{lang === 'ar' ? item.labelAr : item.labelEn}</span>

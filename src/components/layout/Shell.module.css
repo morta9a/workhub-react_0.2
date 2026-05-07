@@ -47,3 +47,12 @@
 .shell:not(:has(.toolbar)) > .main {
   grid-row: 2 / 4;
 }
+
+@media (max-width: 768px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  .mainInner {
+    padding: 1rem 0.8rem;
+  }
+}

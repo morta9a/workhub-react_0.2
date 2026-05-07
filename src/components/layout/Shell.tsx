@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Topbar } from './Topbar';
 import { Sidebar } from './Sidebar';
 import styles  from './Shell.module.css';
@@ -18,13 +18,21 @@ interface ShellProps {
  * Every page is rendered inside Shell.
  */
 export function Shell({ topbarActions, toolbar, children }: ShellProps) {
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
   return (
     <div className={styles.shell}>
       {/* Row 1: Topbar — spans full width */}
-      <Topbar actions={topbarActions} />
+      <Topbar 
+        actions={topbarActions} 
+        onToggleSidebar={() => setIsMobileSidebarOpen(true)} 
+      />
 
       {/* Row 2, Col 1: Sidebar — spans rows 2+3 */}
-      <Sidebar />
+      <Sidebar 
+        isOpen={isMobileSidebarOpen} 
+        onClose={() => setIsMobileSidebarOpen(false)} 
+      />
 
       {/* Row 2, Col 2: Toolbar */}
       {toolbar && (

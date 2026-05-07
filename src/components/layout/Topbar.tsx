@@ -10,6 +10,7 @@ import logoLight from '../../svg/workhub-logo-light.svg';
 
 interface TopbarProps {
   actions?: React.ReactNode;
+  onToggleSidebar?: () => void;
 }
 
 // Single toggle button
@@ -46,7 +47,7 @@ function ToggleBtn({
   );
 }
 
-export function Topbar({ actions }: TopbarProps) {
+export function Topbar({ actions, onToggleSidebar }: TopbarProps) {
   const { pathname } = useLocation();
   const { theme, lang, toggleTheme, toggleLang } = useApp();
   const { user } = useAuth();
@@ -57,6 +58,18 @@ export function Topbar({ actions }: TopbarProps) {
 
   return (
     <header className={styles.topbar}>
+      <button 
+        className={styles.hamburger} 
+        onClick={onToggleSidebar}
+        aria-label="Toggle Menu"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
       {/* Logo — uses SVG files, switches based on theme */}
       <div className={styles.logo}>
         <img

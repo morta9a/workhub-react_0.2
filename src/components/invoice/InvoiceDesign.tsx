@@ -426,7 +426,8 @@ export const InvoiceDesign: React.FC<InvoiceDesignProps> = ({
             <rect x="0" y="0" width="364" height="110" rx="8" fill="#fcfcfc" stroke="#eee" strokeWidth="1"/>
             {[1, 2, 3, 4].map(i => <line key={i} x1="10" y1={i * 22} x2="354" y2={i * 22} stroke="#eee" strokeWidth="0.5" strokeDasharray="4,2"/>)}
             <foreignObject x="10" y="5" width="344" height="100">
-              <div style={{ 
+              {/* @ts-ignore - xmlns is required for foreignObject html to render in SVG */}
+              <div xmlns="http://www.w3.org/1999/xhtml" style={{ 
                 fontSize: '10px', 
                 color: '#555', 
                 textAlign: 'right', 
