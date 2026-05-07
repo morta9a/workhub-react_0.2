@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Outer ring -->
+  <circle cx="32" cy="32" r="29" stroke="#1C2337" stroke-width="2.5" fill="none"/>
+  <!-- Inner ring -->
+  <circle cx="32" cy="32" r="18.5" stroke="#D7641C" stroke-width="2" fill="none"/>
+  <!-- Hub -->
+  <circle cx="32" cy="32" r="5.5" fill="#1C2337"/>
+  <circle cx="32" cy="32" r="3.2" fill="#D7641C"/>
+
+  <!-- Top -->
+  <line x1="32" y1="26.5" x2="32" y2="13.5" stroke="#D7641C" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="32" cy="13.5" r="3.2" fill="#D7641C"/>
+  <circle cx="32" cy="3.5"  r="2.2" fill="#1C2337"/>
+  <!-- Top-right -->
+  <line x1="36.6" y1="29.3" x2="49.6" y2="21.8" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="49.6" cy="21.8" r="3.2" fill="#EB8C3C"/>
+  <circle cx="59"   cy="16.5" r="2.2" fill="#1C2337"/>
+  <!-- Bottom-right -->
+  <line x1="36.6" y1="34.7" x2="49.6" y2="42.2" stroke="#D7641C" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="49.6" cy="42.2" r="3.2" fill="#D7641C"/>
+  <circle cx="59"   cy="47.5" r="2.2" fill="#1C2337"/>
+  <!-- Bottom -->
+  <line x1="32" y1="37.5" x2="32" y2="50.5" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="32" cy="50.5" r="3.2" fill="#EB8C3C"/>
+  <circle cx="32" cy="60.5" r="2.2" fill="#1C2337"/>
+  <!-- Bottom-left -->
+  <line x1="27.4" y1="34.7" x2="14.4" y2="42.2" stroke="#D7641C" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="14.4" cy="42.2" r="3.2" fill="#D7641C"/>
+  <circle cx="5"    cy="47.5" r="2.2" fill="#1C2337"/>
+  <!-- Top-left -->
+  <line x1="27.4" y1="29.3" x2="14.4" y2="21.8" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="14.4" cy="21.8" r="3.2" fill="#EB8C3C"/>
+  <circle cx="5"    cy="16.5" r="2.2" fill="#1C2337"/>
+
+
+</svg>

@@ -1,0 +1,402 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+#stage{
+  width:100%;height:560px;
+  background:#0d1117;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+}
+#logo-wrap{
+  position:absolute;
+  width:220px;height:220px;
+  display:flex;align-items:center;justify-content:center;
+  transform-origin:center center;
+}
+#text-wrap{
+  position:absolute;
+  bottom:110px;
+  left:0;right:0;
+  text-align:center;
+  opacity:0;
+  transform:translateY(18px);
+  transition:none;
+  pointer-events:none;
+}
+#text-work{
+  display:inline;
+  font-family:'Trebuchet MS','Segoe UI',sans-serif;
+  font-size:46px;
+  font-weight:700;
+  color:#ffffff;
+  letter-spacing:2px;
+}
+#text-hub{
+  display:inline;
+  font-family:'Trebuchet MS','Segoe UI',sans-serif;
+  font-size:46px;
+  font-weight:700;
+  color:#D7641C;
+  letter-spacing:2px;
+}
+#text-tagline{
+  display:block;
+  font-family:'Segoe UI',sans-serif;
+  font-size:13px;
+  color:#6b7a99;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  margin-top:6px;
+}
+#particle-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+#replay-btn{
+  position:absolute;top:14px;right:14px;
+  background:transparent;border:1px solid #eb8c3c;
+  color:#eb8c3c;padding:5px 14px;border-radius:6px;
+  font-size:13px;cursor:pointer;font-family:'Segoe UI',sans-serif;
+  transition:background 0.2s;z-index:10;
+}
+#replay-btn:hover{background:rgba(235,140,60,0.12);}
+</style>
+
+<div id="stage">
+  <div id="logo-wrap">
+    <svg id="main-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none"
+         style="width:220px;height:220px;overflow:visible;">
+
+      <circle id="p-outer-ring" cx="32" cy="32" r="29" stroke="#1C2337" stroke-width="2.5" fill="none" opacity="0"/>
+
+      <circle class="p-odot" cx="32"  cy="3.5"  r="2.2" fill="#1C2337" opacity="0"/>
+      <circle class="p-odot" cx="59"  cy="16.5" r="2.2" fill="#1C2337" opacity="0"/>
+      <circle class="p-odot" cx="59"  cy="47.5" r="2.2" fill="#1C2337" opacity="0"/>
+      <circle class="p-odot" cx="32"  cy="60.5" r="2.2" fill="#1C2337" opacity="0"/>
+      <circle class="p-odot" cx="5"   cy="47.5" r="2.2" fill="#1C2337" opacity="0"/>
+      <circle class="p-odot" cx="5"   cy="16.5" r="2.2" fill="#1C2337" opacity="0"/>
+
+      <circle id="p-inner-ring" cx="32" cy="32" r="18.5" stroke="#D7641C" stroke-width="2" fill="none" opacity="0"/>
+
+      <line id="sp0" x1="32"   y1="26.5" x2="32"   y2="13.5" stroke="#D7641C"  stroke-width="2" stroke-linecap="round" opacity="0"/>
+      <line id="sp1" x1="36.6" y1="29.3" x2="49.6" y2="21.8" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round" opacity="0"/>
+      <line id="sp2" x1="36.6" y1="34.7" x2="49.6" y2="42.2" stroke="#D7641C"  stroke-width="2" stroke-linecap="round" opacity="0"/>
+      <line id="sp3" x1="32"   y1="37.5" x2="32"   y2="50.5" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round" opacity="0"/>
+      <line id="sp4" x1="27.4" y1="34.7" x2="14.4" y2="42.2" stroke="#D7641C"  stroke-width="2" stroke-linecap="round" opacity="0"/>
+      <line id="sp5" x1="27.4" y1="29.3" x2="14.4" y2="21.8" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round" opacity="0"/>
+
+      <circle id="sd0" cx="32"   cy="13.5" r="3.2" fill="#D7641C" opacity="0"/>
+      <circle id="sd1" cx="49.6" cy="21.8" r="3.2" fill="#EB8C3C" opacity="0"/>
+      <circle id="sd2" cx="49.6" cy="42.2" r="3.2" fill="#D7641C" opacity="0"/>
+      <circle id="sd3" cx="32"   cy="50.5" r="3.2" fill="#EB8C3C" opacity="0"/>
+      <circle id="sd4" cx="14.4" cy="42.2" r="3.2" fill="#D7641C" opacity="0"/>
+      <circle id="sd5" cx="14.4" cy="21.8" r="3.2" fill="#EB8C3C" opacity="0"/>
+
+      <circle id="p-hub1" cx="32" cy="32" r="5.5" fill="#1C2337" opacity="0"/>
+      <circle id="p-hub2" cx="32" cy="32" r="3.2" fill="#D7641C" opacity="0"/>
+    </svg>
+  </div>
+
+  <div id="text-wrap">
+    <span id="text-work">Work</span><span id="text-hub">Hub</span>
+    <span id="text-tagline">Connect · Collaborate · Create</span>
+  </div>
+
+  <canvas id="particle-canvas"></canvas>
+  <button id="replay-btn" onclick="startAnimation()">↺ إعادة</button>
+</div>
+
+<script>
+const stage   = document.getElementById('stage');
+const wrap    = document.getElementById('logo-wrap');
+const mainSvg = document.getElementById('main-svg');
+const textWrap= document.getElementById('text-wrap');
+const canvas  = document.getElementById('particle-canvas');
+const ctx     = canvas.getContext('2d');
+let running=false, particles=[], outerDeg=0, innerDeg=0;
+
+function setWrap(tx,ty,sc,rz){
+  wrap.style.transform=`translate(${tx}px,${ty}px) scale(${sc}) rotate(${rz}deg)`;
+}
+function easeOut3(t){return 1-Math.pow(1-t,3);}
+function easeOut5(t){return 1-Math.pow(1-t,5);}
+function easeInOut(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+
+function growCircle(el,cx,cy,rFinal,startMs,dur){
+  return new Promise(res=>{
+    setTimeout(()=>{
+      el.setAttribute('opacity',1);
+      let t0=null;
+      function step(ts){
+        if(!t0)t0=ts;
+        const t=Math.min((ts-t0)/dur,1);
+        el.setAttribute('r',rFinal*easeOut3(t));
+        el.setAttribute('cx',cx); el.setAttribute('cy',cy);
+        if(t<1) requestAnimationFrame(step); else res();
+      }
+      requestAnimationFrame(step);
+    },startMs);
+  });
+}
+
+function growLine(el,x1,y1,x2,y2,startMs,dur){
+  return new Promise(res=>{
+    setTimeout(()=>{
+      el.setAttribute('opacity',1);
+      let t0=null;
+      function step(ts){
+        if(!t0)t0=ts;
+        const t=Math.min((ts-t0)/dur,1);
+        const e=easeOut5(t);
+        el.setAttribute('x1',x1);el.setAttribute('y1',y1);
+        el.setAttribute('x2',x1+(x2-x1)*e);el.setAttribute('y2',y1+(y2-y1)*e);
+        if(t<1) requestAnimationFrame(step); else res();
+      }
+      requestAnimationFrame(step);
+    },startMs);
+  });
+}
+
+function drawRing(el,r,startMs,dur){
+  return new Promise(res=>{
+    const circ=2*Math.PI*r;
+    el.setAttribute('stroke-dasharray',circ);
+    el.setAttribute('stroke-dashoffset',circ);
+    el.setAttribute('opacity',1);
+    setTimeout(()=>{
+      let t0=null;
+      function step(ts){
+        if(!t0)t0=ts;
+        const t=Math.min((ts-t0)/dur,1);
+        el.setAttribute('stroke-dashoffset',circ*(1-easeOut3(t)));
+        if(t<1) requestAnimationFrame(step); else res();
+      }
+      requestAnimationFrame(step);
+    },startMs);
+  });
+}
+
+async function phase1build(){
+  // reset
+  document.querySelectorAll('#main-svg circle,#main-svg line').forEach(e=>{
+    e.setAttribute('opacity',0);e.removeAttribute('transform');
+  });
+  document.getElementById('p-outer-ring').removeAttribute('stroke-dasharray');
+  document.getElementById('p-outer-ring').removeAttribute('stroke-dashoffset');
+  document.getElementById('p-inner-ring').removeAttribute('stroke-dasharray');
+  document.getElementById('p-inner-ring').removeAttribute('stroke-dashoffset');
+  [['sp0',32,26.5,32,13.5],['sp1',36.6,29.3,49.6,21.8],['sp2',36.6,34.7,49.6,42.2],
+   ['sp3',32,37.5,32,50.5],['sp4',27.4,34.7,14.4,42.2],['sp5',27.4,29.3,14.4,21.8]]
+  .forEach(([id,x1,y1])=>{
+    const e=document.getElementById(id);
+    if(e){e.setAttribute('x1',x1);e.setAttribute('y1',y1);e.setAttribute('x2',x1);e.setAttribute('y2',y1);}
+  });
+  ['p-hub1','p-hub2'].forEach(id=>document.getElementById(id).setAttribute('r',0));
+  document.querySelectorAll('.p-odot').forEach(e=>e.setAttribute('r',0));
+  ['sd0','sd1','sd2','sd3','sd4','sd5'].forEach(id=>document.getElementById(id).setAttribute('r',0));
+
+  // reset text
+  textWrap.style.opacity='0';
+  textWrap.style.transform='translateY(18px)';
+
+  mainSvg.style.opacity='1';
+  mainSvg.style.filter='blur(18px)';
+  setWrap(0,0,0.08,0);
+
+  await new Promise(res=>{
+    let t0=null;
+    function step(ts){
+      if(!t0)t0=ts;
+      const t=Math.min((ts-t0)/900,1);
+      const e=easeOut5(t);
+      mainSvg.style.filter=`blur(${(1-e)*16}px)`;
+      setWrap(0,0,0.08+e*0.92,0);
+      if(t<1) requestAnimationFrame(step); else res();
+    }
+    requestAnimationFrame(step);
+  });
+  mainSvg.style.filter='none';
+
+  const D=420;
+  growCircle(document.getElementById('p-hub1'),32,32,5.5,0,D);
+  await growCircle(document.getElementById('p-hub2'),32,32,3.2,120,D);
+  await drawRing(document.getElementById('p-inner-ring'),18.5,0,D+80);
+
+  const spokeData=[
+    ['sp0',32,26.5,32,13.5],['sp1',36.6,29.3,49.6,21.8],['sp2',36.6,34.7,49.6,42.2],
+    ['sp3',32,37.5,32,50.5],['sp4',27.4,34.7,14.4,42.2],['sp5',27.4,29.3,14.4,21.8]
+  ];
+  for(let i=0;i<spokeData.length;i++){
+    const [id,x1,y1,x2,y2]=spokeData[i];
+    growLine(document.getElementById(id),x1,y1,x2,y2,i*90,D);
+    if(i<spokeData.length-1) await new Promise(r=>setTimeout(r,90));
+  }
+  await new Promise(r=>setTimeout(r,D+40));
+
+  const sdIds=['sd0','sd1','sd2','sd3','sd4','sd5'];
+  const sdData=[[32,13.5,3.2],[49.6,21.8,3.2],[49.6,42.2,3.2],[32,50.5,3.2],[14.4,42.2,3.2],[14.4,21.8,3.2]];
+  for(let i=0;i<6;i++){
+    growCircle(document.getElementById(sdIds[i]),sdData[i][0],sdData[i][1],sdData[i][2],i*80,280);
+    if(i<5) await new Promise(r=>setTimeout(r,80));
+  }
+  await new Promise(r=>setTimeout(r,300));
+  await drawRing(document.getElementById('p-outer-ring'),29,0,D+100);
+
+  const odots=document.querySelectorAll('.p-odot');
+  odots.forEach((e,i)=>{
+    setTimeout(()=>{
+      e.setAttribute('opacity',1);
+      growCircle(e,parseFloat(e.getAttribute('cx')),parseFloat(e.getAttribute('cy')),2.2,0,220);
+    },i*70);
+  });
+  await new Promise(r=>setTimeout(r,6*70+240));
+}
+
+async function phase12spin(){
+  const outerEls=[document.getElementById('p-outer-ring'),...document.querySelectorAll('.p-odot')];
+  const innerEls=[
+    document.getElementById('p-inner-ring'),
+    ...['sp0','sp1','sp2','sp3','sp4','sp5','sd0','sd1','sd2','sd3','sd4','sd5']
+      .map(id=>document.getElementById(id))
+  ];
+  function applyRings(od,id){
+    outerEls.forEach(e=>{if(e)e.setAttribute('transform',`rotate(${od},32,32)`);});
+    innerEls.forEach(e=>{if(e)e.setAttribute('transform',`rotate(${id},32,32)`);});
+  }
+  const TOTAL=3800; let t0=null;
+  await new Promise(res=>{
+    function step(ts){
+      if(!t0)t0=ts;
+      const t=Math.min((ts-t0)/TOTAL,1);
+      const acc=t*t;
+      applyRings(acc*1400,-acc*1400);
+      setWrap(0,0,1,acc*600);
+      if(t<1) requestAnimationFrame(step); else res();
+    }
+    requestAnimationFrame(step);
+  });
+  await explode();
+}
+
+function explode(){
+  return new Promise(res=>{
+    const rect=stage.getBoundingClientRect();
+    canvas.width=rect.width||680; canvas.height=rect.height||560;
+    mainSvg.style.opacity='0'; wrap.style.opacity='0';
+    const cx=canvas.width/2, cy=canvas.height/2;
+    const colors=['#D7641C','#EB8C3C','#1C2337','#2c4a7c','#f5a623','#fff'];
+    particles=[];
+    for(let i=0;i<80;i++){
+      const a=Math.random()*Math.PI*2, spd=3+Math.random()*11, sz=3+Math.random()*14;
+      particles.push({x:cx,y:cy,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,size:sz,
+        color:colors[Math.floor(Math.random()*colors.length)],alpha:1,
+        rot:Math.random()*Math.PI*2,rotV:(Math.random()-.5)*.28,
+        shape:Math.random()<.5?'circle':'rect',grav:.13});
+    }
+    const DUR=1500; let t0=null;
+    function animP(ts){
+      if(!t0)t0=ts;
+      const t=Math.min((ts-t0)/DUR,1);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(const p of particles){
+        p.x+=p.vx;p.y+=p.vy;p.vy+=p.grav;p.vx*=.985;
+        p.rot+=p.rotV;p.alpha=1-t;
+        ctx.save();ctx.globalAlpha=Math.max(p.alpha,0);
+        ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;
+        if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill();}
+        else ctx.fillRect(-p.size/2,-p.size*.15,p.size,p.size*.3);
+        ctx.restore();
+      }
+      if(t<1) requestAnimationFrame(animP);
+      else{ctx.clearRect(0,0,canvas.width,canvas.height);res();}
+    }
+    requestAnimationFrame(animP);
+  });
+}
+
+async function phase3(){
+  // reset all
+  document.querySelectorAll('#main-svg circle,#main-svg line').forEach(e=>{
+    e.setAttribute('opacity',1);e.removeAttribute('transform');
+  });
+  document.getElementById('p-outer-ring').removeAttribute('stroke-dasharray');
+  document.getElementById('p-outer-ring').removeAttribute('stroke-dashoffset');
+  document.getElementById('p-inner-ring').removeAttribute('stroke-dasharray');
+  document.getElementById('p-inner-ring').removeAttribute('stroke-dashoffset');
+  [['sp0',32,26.5,32,13.5],['sp1',36.6,29.3,49.6,21.8],['sp2',36.6,34.7,49.6,42.2],
+   ['sp3',32,37.5,32,50.5],['sp4',27.4,34.7,14.4,42.2],['sp5',27.4,29.3,14.4,21.8]]
+  .forEach(([id,x1,y1,x2,y2])=>{
+    const e=document.getElementById(id);
+    if(e){e.setAttribute('x1',x1);e.setAttribute('y1',y1);e.setAttribute('x2',x2);e.setAttribute('y2',y2);}
+  });
+  document.getElementById('p-hub1').setAttribute('r',5.5);
+  document.getElementById('p-hub2').setAttribute('r',3.2);
+  document.getElementById('p-outer-ring').setAttribute('r',29);
+  document.getElementById('p-inner-ring').setAttribute('r',18.5);
+  ['sd0','sd1','sd2','sd3','sd4','sd5'].forEach(id=>document.getElementById(id).setAttribute('r',3.2));
+  document.querySelectorAll('.p-odot').forEach(e=>e.setAttribute('r',2.2));
+
+  mainSvg.style.opacity='1'; wrap.style.opacity='1';
+  textWrap.style.opacity='0'; textWrap.style.transform='translateY(18px)';
+
+  // move logo up to make room for text
+  const stageW=stage.offsetWidth||680;
+  const startX=stageW/2+140;
+  const DUR=1700; let t0=null;
+
+  await new Promise(res=>{
+    function roll(ts){
+      if(!t0)t0=ts;
+      const t=Math.min((ts-t0)/DUR,1);
+      const e=easeInOut(t);
+      const targetY=-40; // move up a bit
+      setWrap(startX*(1-e), targetY*e, 1, (1-e)*startX*1.1);
+      if(t<1) requestAnimationFrame(roll); else res();
+    }
+    requestAnimationFrame(roll);
+  });
+
+  // settle bounce
+  await new Promise(res=>{
+    const BD=500; let t1=null;
+    function bnc(ts){
+      if(!t1)t1=ts;
+      const bt=Math.min((ts-t1)/BD,1);
+      setWrap(0,-40+Math.sin(bt*Math.PI)*-8,1,0);
+      if(bt<1) requestAnimationFrame(bnc); else{setWrap(0,-40,1,0);res();}
+    }
+    requestAnimationFrame(bnc);
+  });
+
+  // animate text in
+  await new Promise(r=>setTimeout(r,150));
+  const TDUR=900; let tt0=null;
+  await new Promise(res=>{
+    function stepT(ts){
+      if(!tt0)tt0=ts;
+      const t=Math.min((ts-tt0)/TDUR,1);
+      const e=easeOut3(t);
+      textWrap.style.opacity=e;
+      textWrap.style.transform=`translateY(${18*(1-e)}px)`;
+      if(t<1) requestAnimationFrame(stepT); else res();
+    }
+    requestAnimationFrame(stepT);
+  });
+}
+
+async function startAnimation(){
+  if(running)return;
+  running=true;
+  ctx.clearRect(0,0,canvas.width||680,canvas.height||560);
+  wrap.style.opacity='1';
+  mainSvg.style.opacity='0';
+  textWrap.style.opacity='0';
+
+  await phase1build();
+  await new Promise(r=>setTimeout(r,300));
+  await phase12spin();
+  await new Promise(r=>setTimeout(r,300));
+  await phase3();
+  running=false;
+}
+
+startAnimation();
+</script>

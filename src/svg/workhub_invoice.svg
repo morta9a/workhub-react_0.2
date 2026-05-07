@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 794 1123" width="794" height="1123" font-family="'Segoe UI', Arial, sans-serif">
+
+  <!-- ═══════════════════════════════════════════
+       WORKHUB — SALES INVOICE TEMPLATE
+       Colors: #1C2337 (Navy) | #D7641C (Orange) | #FFB950 (Gold)
+       Editable fields marked with id attributes
+  ═══════════════════════════════════════════ -->
+
+  <!-- PAGE BACKGROUND -->
+  <rect width="794" height="1123" fill="#ffffff"/>
+  <rect width="794" height="1123" fill="none" stroke="#D7641C" stroke-width="1.2" x="0.6" y="0.6"/>
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <rect x="0" y="0" width="794" height="120" fill="#1C2337"/>
+
+  <!-- LOGO MARK (icon) -->
+  <g transform="translate(30, 20)">
+    <circle cx="38" cy="40" r="34" stroke="#ffffff" stroke-width="2.5" fill="none"/>
+    <circle cx="38" cy="40" r="22" stroke="#D7641C" stroke-width="2" fill="none"/>
+    <circle cx="38" cy="40" r="6" fill="#ffffff"/>
+    <circle cx="38" cy="40" r="3.5" fill="#D7641C"/>
+    <!-- spokes -->
+    <line x1="38" y1="34" x2="38" y2="18" stroke="#D7641C" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="38" cy="18" r="3.5" fill="#D7641C"/>
+    <circle cx="38" cy="6" r="2.5" fill="#ffffff"/>
+    <line x1="43.2" y1="37" x2="57.2" y2="29" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="57.2" cy="29" r="3.5" fill="#EB8C3C"/>
+    <circle cx="67" cy="23" r="2.5" fill="#ffffff"/>
+    <line x1="43.2" y1="43" x2="57.2" y2="51" stroke="#D7641C" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="57.2" cy="51" r="3.5" fill="#D7641C"/>
+    <circle cx="67" cy="57" r="2.5" fill="#ffffff"/>
+    <line x1="38" y1="46" x2="38" y2="62" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="38" cy="62" r="3.5" fill="#EB8C3C"/>
+    <circle cx="38" cy="74" r="2.5" fill="#ffffff"/>
+    <line x1="32.8" y1="43" x2="18.8" y2="51" stroke="#D7641C" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="18.8" cy="51" r="3.5" fill="#D7641C"/>
+    <circle cx="9" cy="57" r="2.5" fill="#ffffff"/>
+    <line x1="32.8" y1="37" x2="18.8" y2="29" stroke="#EB8C3C" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="18.8" cy="29" r="3.5" fill="#EB8C3C"/>
+    <circle cx="9" cy="23" r="2.5" fill="#ffffff"/>
+    <!-- cross connections -->
+    <line x1="38" y1="18" x2="57.2" y2="51" stroke="#FFB950" stroke-width="1.4" stroke-opacity="0.7"/>
+    <line x1="57.2" y1="29" x2="18.8" y2="51" stroke="#FFB950" stroke-width="1.4" stroke-opacity="0.7"/>
+    <line x1="38" y1="62" x2="18.8" y2="29" stroke="#FFB950" stroke-width="1.4" stroke-opacity="0.7"/>
+  </g>
+
+  <!-- WORDMARK -->
+  <text x="116" y="58" font-size="32" font-weight="700" fill="#ffffff">Work</text>
+  <text x="192" y="58" font-size="32" font-weight="700" fill="#D7641C">Hub</text>
+  <line x1="192" y1="63" x2="258" y2="63" stroke="#D7641C" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="262" cy="63" r="3" fill="#FFB950"/>
+  <line x1="116" y1="70" x2="270" y2="70" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+  <text x="270" y="82" font-size="9.5" fill="#96A87A" text-anchor="end">Business Management Platform</text>
+  <text x="270" y="95" font-size="9.5" fill="rgba(255,255,255,0.6)" text-anchor="end">منصة إدارة الأعمال المتكاملة</text>
+
+  <!-- INVOICE TITLE CENTER -->
+  <text x="397" y="50" font-size="26" font-weight="700" fill="#FFB950" text-anchor="middle">فاتورة مبيعات</text>
+  <text x="397" y="67" font-size="12" fill="rgba(255,185,80,0.7)" text-anchor="middle">Sales Invoice</text>
+  <!-- Invoice Number Box -->
+  <rect x="327" y="75" width="140" height="28" rx="6" fill="rgba(215,100,28,0.2)" stroke="rgba(215,100,28,0.5)" stroke-width="1"/>
+  <text id="invoice-number" x="397" y="93" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle" letter-spacing="2">INV - ______</text>
+
+  <!-- COMPANY INFO RIGHT -->
+  <text x="764" y="36" font-size="12" font-weight="700" fill="#ffffff" text-anchor="end" id="company-name">WorkHub Platform</text>
+  <text x="764" y="52" font-size="10.5" fill="rgba(255,255,255,0.7)" text-anchor="end" id="company-address">العنوان: __________________________</text>
+  <text x="764" y="67" font-size="10.5" fill="rgba(255,255,255,0.7)" text-anchor="end" id="company-phone">هاتف / Tel: ____________________</text>
+  <text x="764" y="82" font-size="10.5" fill="rgba(255,255,255,0.7)" text-anchor="end" id="company-fax">فاكس / Fax: ____________________</text>
+  <text x="764" y="97" font-size="10.5" fill="rgba(255,255,255,0.7)" text-anchor="end" id="company-email">Email: ________________________</text>
+
+  <!-- COLOR STRIP -->
+  <defs>
+    <linearGradient id="stripGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1C2337"/>
+      <stop offset="50%" stop-color="#D7641C"/>
+      <stop offset="100%" stop-color="#FFB950"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="120" width="794" height="5" fill="url(#stripGrad)"/>
+
+  <!-- ══════════════ META SECTION ══════════════ -->
+  <!-- Left box: Invoice Info -->
+  <rect x="0" y="125" width="397" height="120" fill="#fafaf9"/>
+  <rect x="397" y="125" width="397" height="120" fill="#f7f5f2"/>
+  <line x1="397" y1="125" x2="397" y2="245" stroke="#e2ddd8" stroke-width="0.8"/>
+  <line x1="0" y1="245" x2="794" y2="245" stroke="#e2ddd8" stroke-width="0.8"/>
+
+  <!-- Invoice Info Title -->
+  <text x="370" y="146" font-size="10" font-weight="700" fill="#1C2337" text-anchor="end">بيانات الفاتورة</text>
+  <text x="280" y="146" font-size="9" fill="#888" text-anchor="end">Invoice Info</text>
+  <line x1="30" y1="150" x2="370" y2="150" stroke="#D7641C" stroke-width="2"/>
+
+  <!-- Invoice fields -->
+  <!-- Date -->
+  <text x="370" y="170" font-size="11" fill="#777" text-anchor="end">التاريخ / Date</text>
+  <rect x="30" y="157" width="180" height="20" rx="4" fill="#ffffff" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="inv-date" x="120" y="172" font-size="11" font-weight="500" fill="#1C2337" text-anchor="middle">__ / __ / ____</text>
+
+  <!-- Store -->
+  <text x="370" y="194" font-size="11" fill="#777" text-anchor="end">رقم المخزن / Store ID</text>
+  <rect x="30" y="181" width="180" height="20" rx="4" fill="#ffffff" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="inv-store" x="120" y="196" font-size="11" font-weight="500" fill="#1C2337" text-anchor="middle">S2</text>
+
+  <!-- Currency -->
+  <text x="370" y="218" font-size="11" fill="#777" text-anchor="end">العملة / Currency</text>
+  <rect x="30" y="205" width="180" height="20" rx="4" fill="#ffffff" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="inv-currency" x="120" y="220" font-size="11" font-weight="500" fill="#1C2337" text-anchor="middle">CS1</text>
+
+  <!-- Accountant -->
+  <text x="370" y="242" font-size="11" fill="#777" text-anchor="end">المحاسب / Accountant</text>
+  <rect x="30" y="229" width="180" height="20" rx="4" fill="#ffffff" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="inv-accountant" x="120" y="244" font-size="11" font-weight="500" fill="#1C2337" text-anchor="middle">______________</text>
+
+  <!-- Client Info Title -->
+  <text x="764" y="146" font-size="10" font-weight="700" fill="#1C2337" text-anchor="end">بيانات العميل</text>
+  <text x="660" y="146" font-size="9" fill="#888" text-anchor="end">Client Info</text>
+  <line x1="417" y1="150" x2="764" y2="150" stroke="#D7641C" stroke-width="2"/>
+
+  <!-- Client Name -->
+  <text x="764" y="170" font-size="11" fill="#777" text-anchor="end">الاسم / Name</text>
+  <rect x="417" y="157" width="200" height="20" rx="4" fill="#ffffff" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="client-name" x="517" y="172" font-size="11" font-weight="500" fill="#1C2337" text-anchor="middle">______________</text>
+
+  <!-- Client Address -->
+  <text x="764" y="194" font-size="11" fill="#777" text-anchor="end">العنوان / Address</text>
+  <rect x="417" y="181" width="200" height="20" rx="4" fill="#ffffff" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="client-address" x="517" y="196" font-size="11" font-weight="500" fill="#1C2337" text-anchor="middle">______________</text>
+
+  <!-- Client Phone -->
+  <text x="764" y="218" font-size="11" fill="#777" text-anchor="end">الهاتف / Phone</text>
+  <rect x="417" y="205" width="200" height="20" rx="4" fill="#ffffff" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="client-phone" x="517" y="220" font-size="11" font-weight="500" fill="#1C2337" text-anchor="middle">______________</text>
+
+  <!-- Dealer No - accent -->
+  <text x="764" y="242" font-size="11" fill="#777" text-anchor="end">رمز العميل / Dealer No.</text>
+  <rect x="417" y="229" width="200" height="20" rx="4" fill="#fff8ee" stroke="#FFB950" stroke-width="1"/>
+  <text id="client-dealer" x="517" y="244" font-size="11" font-weight="600" fill="#8a4e00" text-anchor="middle">______________</text>
+
+  <!-- ══════════════ TABLE HEADER LABEL ══════════════ -->
+  <rect x="0" y="245" width="794" height="24" fill="#f0ede8"/>
+  <line x1="0" y1="269" x2="794" y2="269" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text x="764" y="261" font-size="10" font-weight="700" fill="#1C2337" text-anchor="end">تفاصيل الأصناف</text>
+  <text x="30" y="261" font-size="10" fill="#888">Items Details</text>
+
+  <!-- ══════════════ TABLE HEAD ══════════════ -->
+  <rect x="0" y="269" width="794" height="34" fill="#1C2337"/>
+
+  <!-- Column headers - 9 columns -->
+  <!-- Col positions: 0-60, 60-230, 230-290, 290-360, 360-470, 470-530, 530-575, 575-640, 640-794 -->
+  <line x1="60" y1="269" x2="60" y2="303" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+  <line x1="230" y1="269" x2="230" y2="303" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+  <line x1="295" y1="269" x2="295" y2="303" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+  <line x1="365" y1="269" x2="365" y2="303" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+  <line x1="470" y1="269" x2="470" y2="303" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+  <line x1="525" y1="269" x2="525" y2="303" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+  <line x1="570" y1="269" x2="570" y2="303" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+  <line x1="640" y1="269" x2="640" y2="303" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+
+  <text x="30" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">رقم الصنف</text>
+  <text x="30" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Item No.</text>
+
+  <text x="145" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">اسم الصنف</text>
+  <text x="145" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Item Name</text>
+
+  <text x="262" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">المخزن</text>
+  <text x="262" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Store</text>
+
+  <text x="330" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">انتهاء</text>
+  <text x="330" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Exp. Date</text>
+
+  <text x="417" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">الشركة</text>
+  <text x="417" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Company</text>
+
+  <text x="497" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">الكمية</text>
+  <text x="497" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Qty</text>
+
+  <text x="547" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">بونص</text>
+  <text x="547" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Bonus</text>
+
+  <text x="605" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">سعر الوحدة</text>
+  <text x="605" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Unit Price</text>
+
+  <text x="717" y="282" font-size="10" font-weight="500" fill="#ffffff" text-anchor="middle">الإجمالي</text>
+  <text x="717" y="297" font-size="8.5" fill="#FFB950" text-anchor="middle" opacity="0.85">Total</text>
+
+  <!-- ══════════════ TABLE ROWS (8 rows) ══════════════ -->
+  <!-- Row heights: 30px each, starting at y=303 -->
+
+  <!-- ROW 1 (white) -->
+  <rect x="0" y="303" width="794" height="30" fill="#ffffff"/>
+  <line x1="0" y1="333" x2="794" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="60" y1="303" x2="60" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="230" y1="303" x2="230" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="295" y1="303" x2="295" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="365" y1="303" x2="365" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="470" y1="303" x2="470" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="525" y1="303" x2="525" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="570" y1="303" x2="570" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="640" y1="303" x2="640" y2="333" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="r1-itemno" x="30" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r1-name"   x="145" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">___________________________</text>
+  <text id="r1-store"  x="262" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r1-exp"    x="330" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">__/__/__</text>
+  <text id="r1-co"     x="417" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">__________</text>
+  <text id="r1-qty"    x="497" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r1-bon"    x="547" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r1-price"  x="605" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r1-total"  x="717" y="322" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+
+  <!-- ROW 2 (tinted) -->
+  <rect x="0" y="333" width="794" height="30" fill="#faf9f7"/>
+  <line x1="0" y1="363" x2="794" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="60" y1="333" x2="60" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="230" y1="333" x2="230" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="295" y1="333" x2="295" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="365" y1="333" x2="365" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="470" y1="333" x2="470" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="525" y1="333" x2="525" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="570" y1="333" x2="570" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="640" y1="333" x2="640" y2="363" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="r2-itemno" x="30" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r2-name"   x="145" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">___________________________</text>
+  <text id="r2-store"  x="262" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r2-exp"    x="330" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">__/__/__</text>
+  <text id="r2-co"     x="417" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">__________</text>
+  <text id="r2-qty"    x="497" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r2-bon"    x="547" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r2-price"  x="605" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r2-total"  x="717" y="352" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+
+  <!-- ROW 3 (white) -->
+  <rect x="0" y="363" width="794" height="30" fill="#ffffff"/>
+  <line x1="0" y1="393" x2="794" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="60" y1="363" x2="60" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="230" y1="363" x2="230" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="295" y1="363" x2="295" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="365" y1="363" x2="365" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="470" y1="363" x2="470" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="525" y1="363" x2="525" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="570" y1="363" x2="570" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="640" y1="363" x2="640" y2="393" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="r3-itemno" x="30" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r3-name"   x="145" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">___________________________</text>
+  <text id="r3-store"  x="262" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r3-exp"    x="330" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">__/__/__</text>
+  <text id="r3-co"     x="417" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">__________</text>
+  <text id="r3-qty"    x="497" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r3-bon"    x="547" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r3-price"  x="605" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r3-total"  x="717" y="382" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+
+  <!-- ROW 4 (tinted) -->
+  <rect x="0" y="393" width="794" height="30" fill="#faf9f7"/>
+  <line x1="0" y1="423" x2="794" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="60" y1="393" x2="60" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="230" y1="393" x2="230" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="295" y1="393" x2="295" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="365" y1="393" x2="365" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="470" y1="393" x2="470" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="525" y1="393" x2="525" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="570" y1="393" x2="570" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="640" y1="393" x2="640" y2="423" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="r4-itemno" x="30" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r4-name"   x="145" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">___________________________</text>
+  <text id="r4-store"  x="262" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r4-exp"    x="330" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">__/__/__</text>
+  <text id="r4-co"     x="417" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">__________</text>
+  <text id="r4-qty"    x="497" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r4-bon"    x="547" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r4-price"  x="605" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r4-total"  x="717" y="412" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+
+  <!-- ROW 5 (white) -->
+  <rect x="0" y="423" width="794" height="30" fill="#ffffff"/>
+  <line x1="0" y1="453" x2="794" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="60" y1="423" x2="60" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="230" y1="423" x2="230" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="295" y1="423" x2="295" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="365" y1="423" x2="365" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="470" y1="423" x2="470" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="525" y1="423" x2="525" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="570" y1="423" x2="570" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="640" y1="423" x2="640" y2="453" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="r5-itemno" x="30" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r5-name"   x="145" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">___________________________</text>
+  <text id="r5-store"  x="262" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r5-exp"    x="330" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">__/__/__</text>
+  <text id="r5-co"     x="417" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">__________</text>
+  <text id="r5-qty"    x="497" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r5-bon"    x="547" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r5-price"  x="605" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r5-total"  x="717" y="442" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+
+  <!-- ROW 6 (tinted) -->
+  <rect x="0" y="453" width="794" height="30" fill="#faf9f7"/>
+  <line x1="0" y1="483" x2="794" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="60" y1="453" x2="60" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="230" y1="453" x2="230" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="295" y1="453" x2="295" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="365" y1="453" x2="365" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="470" y1="453" x2="470" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="525" y1="453" x2="525" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="570" y1="453" x2="570" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="640" y1="453" x2="640" y2="483" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="r6-itemno" x="30" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r6-name"   x="145" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">___________________________</text>
+  <text id="r6-store"  x="262" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r6-exp"    x="330" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">__/__/__</text>
+  <text id="r6-co"     x="417" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">__________</text>
+  <text id="r6-qty"    x="497" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r6-bon"    x="547" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r6-price"  x="605" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r6-total"  x="717" y="472" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+
+  <!-- ROW 7 (white) -->
+  <rect x="0" y="483" width="794" height="30" fill="#ffffff"/>
+  <line x1="0" y1="513" x2="794" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="60" y1="483" x2="60" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="230" y1="483" x2="230" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="295" y1="483" x2="295" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="365" y1="483" x2="365" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="470" y1="483" x2="470" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="525" y1="483" x2="525" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="570" y1="483" x2="570" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="640" y1="483" x2="640" y2="513" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="r7-itemno" x="30" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r7-name"   x="145" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">___________________________</text>
+  <text id="r7-store"  x="262" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r7-exp"    x="330" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">__/__/__</text>
+  <text id="r7-co"     x="417" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">__________</text>
+  <text id="r7-qty"    x="497" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r7-bon"    x="547" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r7-price"  x="605" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r7-total"  x="717" y="502" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+
+  <!-- ROW 8 (tinted) -->
+  <rect x="0" y="513" width="794" height="30" fill="#faf9f7"/>
+  <line x1="0" y1="543" x2="794" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="60" y1="513" x2="60" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="230" y1="513" x2="230" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="295" y1="513" x2="295" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="365" y1="513" x2="365" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="470" y1="513" x2="470" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="525" y1="513" x2="525" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="570" y1="513" x2="570" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <line x1="640" y1="513" x2="640" y2="543" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="r8-itemno" x="30" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r8-name"   x="145" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">___________________________</text>
+  <text id="r8-store"  x="262" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r8-exp"    x="330" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">__/__/__</text>
+  <text id="r8-co"     x="417" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">__________</text>
+  <text id="r8-qty"    x="497" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r8-bon"    x="547" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r8-price"  x="605" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+  <text id="r8-total"  x="717" y="532" font-size="11" fill="#2d2d2d" text-anchor="middle">___</text>
+
+  <!-- TABLE FOOTER / TOTALS ROW -->
+  <rect x="0" y="543" width="794" height="30" fill="#eef0f5"/>
+  <line x1="0" y1="573" x2="794" y2="573" stroke="#1C2337" stroke-width="1.5"/>
+  <line x1="60" y1="543" x2="60" y2="573" stroke="#d5d9e2" stroke-width="0.6"/>
+  <line x1="470" y1="543" x2="470" y2="573" stroke="#d5d9e2" stroke-width="0.6"/>
+  <line x1="640" y1="543" x2="640" y2="573" stroke="#d5d9e2" stroke-width="0.6"/>
+  <text x="370" y="562" font-size="11" font-weight="600" fill="#1C2337" text-anchor="end">عدد الأصناف / Count:</text>
+  <text id="count-val" x="60" y="562" font-size="11" font-weight="600" fill="#D7641C" text-anchor="middle">___</text>
+  <text x="617" y="562" font-size="11" font-weight="600" fill="#1C2337" text-anchor="end">مجموع الكميات / Total Qty:</text>
+  <text id="qty-total" x="470" y="562" font-size="11" font-weight="600" fill="#D7641C" text-anchor="middle">___</text>
+  <text x="764" y="562" font-size="11" font-weight="700" fill="#1C2337" text-anchor="end">المجموع / Subtotal:</text>
+  <text id="subtotal-val" x="717" y="562" font-size="11" font-weight="700" fill="#D7641C" text-anchor="middle">___</text>
+
+  <!-- ══════════════ SUMMARY SECTION ══════════════ -->
+  <line x1="397" y1="573" x2="397" y2="750" stroke="#e2ddd8" stroke-width="0.8"/>
+  <line x1="0" y1="750" x2="794" y2="750" stroke="#e2ddd8" stroke-width="0.8"/>
+
+  <!-- NOTES LEFT -->
+  <text x="370" y="596" font-size="10" font-weight="700" fill="#1C2337" text-anchor="end">ملاحظات</text>
+  <text x="250" y="596" font-size="9" fill="#888" text-anchor="end">Notes</text>
+  <line x1="30" y1="600" x2="370" y2="600" stroke="#D7641C" stroke-width="1.8"/>
+
+  <text x="370" y="622" font-size="11" fill="#777" text-anchor="end">Desc 1:</text>
+  <line x1="30" y1="624" x2="280" y2="624" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="desc1" x="155" y="621" font-size="11" fill="#1C2337" text-anchor="middle">_______________________</text>
+
+  <text x="370" y="648" font-size="11" fill="#777" text-anchor="end">Desc 2:</text>
+  <line x1="30" y1="650" x2="280" y2="650" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="desc2" x="155" y="647" font-size="11" fill="#1C2337" text-anchor="middle">_______________________</text>
+
+  <text x="370" y="674" font-size="11" fill="#777" text-anchor="end">Desc 3:</text>
+  <line x1="30" y1="676" x2="280" y2="676" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="desc3" x="155" y="673" font-size="11" fill="#1C2337" text-anchor="middle">_______________________</text>
+
+  <text x="370" y="700" font-size="11" fill="#777" text-anchor="end">Desc 4:</text>
+  <line x1="30" y1="702" x2="280" y2="702" stroke="#e2ddd8" stroke-width="0.8"/>
+  <text id="desc4" x="155" y="699" font-size="11" fill="#1C2337" text-anchor="middle">_______________________</text>
+
+  <text x="370" y="730" font-size="10" fill="#bbb" text-anchor="end">S20:</text>
+  <text id="s20-val" x="200" y="730" font-size="10" fill="#999" text-anchor="middle">_______________</text>
+
+  <!-- TOTALS RIGHT -->
+  <text x="764" y="596" font-size="10" font-weight="700" fill="#1C2337" text-anchor="end">الإجماليات</text>
+  <text x="620" y="596" font-size="9" fill="#888" text-anchor="end">Totals</text>
+  <line x1="417" y1="600" x2="764" y2="600" stroke="#D7641C" stroke-width="1.8"/>
+
+  <!-- Subtotal row -->
+  <text x="764" y="622" font-size="11" fill="#777" text-anchor="end">المجموع الكلي / Subtotal</text>
+  <line x1="417" y1="624" x2="764" y2="624" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="tot-subtotal" x="700" y="621" font-size="11" font-weight="500" fill="#1C2337" text-anchor="end">___________</text>
+
+  <!-- Discount amount -->
+  <text x="764" y="648" font-size="11" fill="#777" text-anchor="end">مبلغ الخصم / Discount Amount</text>
+  <line x1="417" y1="650" x2="764" y2="650" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="tot-disc-amt" x="700" y="647" font-size="11" font-weight="500" fill="#1C2337" text-anchor="end">___________</text>
+
+  <!-- Discount rate -->
+  <text x="764" y="674" font-size="11" fill="#777" text-anchor="end">نسبة الخصم % / Discount Rate</text>
+  <line x1="417" y1="676" x2="764" y2="676" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="tot-disc-rate" x="700" y="673" font-size="11" font-weight="500" fill="#1C2337" text-anchor="end">___________</text>
+
+  <!-- Calculated discount -->
+  <text x="764" y="700" font-size="11" fill="#777" text-anchor="end">الخصم المحسوب / Calculated Disc.</text>
+  <line x1="417" y1="702" x2="764" y2="702" stroke="#ece8e3" stroke-width="0.6"/>
+  <text id="tot-disc-calc" x="700" y="699" font-size="11" font-weight="500" fill="#1C2337" text-anchor="end">___________</text>
+
+  <!-- Separator line -->
+  <line x1="417" y1="710" x2="764" y2="710" stroke="#1C2337" stroke-width="0.8"/>
+
+  <!-- GRAND TOTAL BOX -->
+  <rect x="417" y="716" width="347" height="36" rx="8" fill="#1C2337"/>
+  <text x="764" y="739" font-size="13" fill="rgba(255,255,255,0.85)" text-anchor="end">مبلغ الفاتورة / Invoice Total</text>
+  <text id="grand-total" x="432" y="739" font-size="18" font-weight="700" fill="#FFB950">_________</text>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <rect x="0" y="750" width="794" height="115" fill="#f7f5f2"/>
+
+  <!-- Stamp circle -->
+  <circle cx="70" cy="812" r="45" fill="none" stroke="#D7641C" stroke-width="2" stroke-dasharray="4,3" opacity="0.3"/>
+  <circle cx="70" cy="812" r="36" fill="none" stroke="#1C2337" stroke-width="1" opacity="0.2"/>
+  <text x="70" y="806" font-size="9" font-weight="700" fill="#1C2337" text-anchor="middle" opacity="0.3">ختم الشركة</text>
+  <text x="70" y="820" font-size="8" fill="#888" text-anchor="middle" opacity="0.3">Company Stamp</text>
+
+  <!-- Signature -->
+  <line x1="300" y1="840" x2="500" y2="840" stroke="#b0aaa5" stroke-width="1.5"/>
+  <text x="400" y="855" font-size="11" fill="#888" text-anchor="middle">اسم وتوقيع المستلم</text>
+  <text x="400" y="868" font-size="9.5" fill="#bbb" text-anchor="middle">Receiver Name &amp; Signature</text>
+
+  <!-- Footer brand info -->
+  <text x="764" y="780" font-size="11" font-weight="700" fill="#1C2337" text-anchor="end" id="footer-brand">WorkHub Platform</text>
+  <text x="764" y="797" font-size="10" fill="#D7641C" text-anchor="end">منصة إدارة الأعمال المتكاملة</text>
+  <line x1="600" y1="804" x2="764" y2="804" stroke="#e2ddd8" stroke-width="0.6"/>
+  <text x="764" y="818" font-size="10" fill="#999" text-anchor="end">طُبع / Printed: __ / __ / ____</text>
+  <text x="764" y="832" font-size="10" fill="#999" text-anchor="end">الساعة / Time: __:__</text>
+  <text x="764" y="846" font-size="10" fill="#999" text-anchor="end" id="footer-email">Email: ____________________</text>
+
+  <!-- Bottom accent strip -->
+  <rect x="0" y="865" width="794" height="4" fill="url(#stripGrad)"/>
+
+</svg>

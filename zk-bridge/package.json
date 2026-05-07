@@ -1,0 +1,14 @@
+{
+  "name": "zk-bridge",
+  "version": "1.0.0",
+  "description": "Bridge script to fetch data from ZKTeco biometric device and send to Supabase",
+  "main": "sync.js",
+  "scripts": {
+    "start": "node sync.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.42.0",
+    "dotenv": "^16.4.5",
+    "node-zklib": "^3.0.4"
+  }
+}

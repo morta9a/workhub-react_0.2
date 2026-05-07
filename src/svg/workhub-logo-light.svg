@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
+  <!-- Icon Mark -->
+  <g transform="translate(10, 8)">
+    <!-- Outer ring -->
+    <circle cx="32" cy="32" r="28" stroke="#1C2337" stroke-width="2.2" fill="none"/>
+    <!-- Inner ring -->
+    <circle cx="32" cy="32" r="18" stroke="#D7641C" stroke-width="1.8" fill="none"/>
+    <!-- Hub center -->
+    <circle cx="32" cy="32" r="5" fill="#1C2337"/>
+    <circle cx="32" cy="32" r="3" fill="#D7641C"/>
+
+    <!-- Spokes & inner nodes (6 directions) -->
+    <!-- Top -->
+    <line x1="32" y1="27" x2="32" y2="14" stroke="#D7641C" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="32" cy="14" r="3" fill="#D7641C"/>
+    <circle cx="32" cy="4"  r="2" fill="#1C2337"/>
+    <!-- Top-right -->
+    <line x1="36.3" y1="29.5" x2="47.6" y2="23" stroke="#EB8C3C" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="47.6" cy="23" r="3" fill="#EB8C3C"/>
+    <circle cx="56.2" cy="18" r="2" fill="#1C2337"/>
+    <!-- Bottom-right -->
+    <line x1="36.3" y1="34.5" x2="47.6" y2="41" stroke="#D7641C" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="47.6" cy="41" r="3" fill="#D7641C"/>
+    <circle cx="56.2" cy="46" r="2" fill="#1C2337"/>
+    <!-- Bottom -->
+    <line x1="32" y1="37" x2="32" y2="50" stroke="#EB8C3C" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="32" cy="50" r="3" fill="#EB8C3C"/>
+    <circle cx="32" cy="60" r="2" fill="#1C2337"/>
+    <!-- Bottom-left -->
+    <line x1="27.7" y1="34.5" x2="16.4" y2="41" stroke="#D7641C" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="16.4" cy="41" r="3" fill="#D7641C"/>
+    <circle cx="7.8"  cy="46" r="2" fill="#1C2337"/>
+    <!-- Top-left -->
+    <line x1="27.7" y1="29.5" x2="16.4" y2="23" stroke="#EB8C3C" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="16.4" cy="23" r="3" fill="#EB8C3C"/>
+    <circle cx="7.8"  cy="18" r="2" fill="#1C2337"/>
+
+
+  </g>
+
+  <!-- Wordmark -->
+  <text x="84" y="36" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="28" fill="#1C2337">Work</text>
+  <text x="158" y="36" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="28" fill="#D7641C">Hub</text>
+
+  <!-- Orange underline under Hub -->
+  <line x1="158" y1="40" x2="214" y2="40" stroke="#D7641C" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Gold dot -->
+  <circle cx="218" cy="40" r="2.5" fill="#FFB950"/>
+
+  <!-- Divider -->
+  <line x1="84" y1="46" x2="220" y2="46" stroke="#D0C8BE" stroke-width="0.8"/>
+
+  <!-- English tagline -->
+  <text x="220" y="58" font-family="'Segoe UI', Arial, sans-serif" font-size="9.5" fill="#96A87A" text-anchor="end" opacity="0.85">Business Management Platform</text>
+
+  <!-- Arabic tagline -->
+  <text x="220" y="71" font-family="'Segoe UI', Arial, sans-serif" font-size="9.5" fill="#1C2337" text-anchor="end" opacity="0.75">منصة إدارة الأعمال المتكاملة</text>
+</svg>
