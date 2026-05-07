@@ -110,13 +110,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
       // Load personal settings for all users (including admin)
       let query = supabase.from('invoice_settings').select('*');
-      if (user.plan === 'enterprise' && user.companyId) {
+      if (user.plan === 'enterprise' && user.companyId && user.email !== 'admin@workhub.io') {
         query = query.eq('company_id', user.companyId);
       } else {
         query = query.eq('user_id', user.id);
       }
       const { data: specificSet } = await query.maybeSingle();
       if (specificSet) finalSettings = specificSet;
+
 
 
       if (finalSettings) {
