@@ -108,16 +108,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const { data: globalSet } = await supabase.from('invoice_settings').select('*').eq('is_global', true).maybeSingle();
       let finalSettings = globalSet;
 
-      if (user.email !== 'admin@workhub.io' && user.plan !== 'free') {
-        let query = supabase.from('invoice_settings').select('*');
-        if (user.plan === 'enterprise' && user.companyId) {
-          query = query.eq('company_id', user.companyId);
-        } else {
-          query = query.eq('user_id', user.id);
-        }
-        const { data: specificSet } = await query.maybeSingle();
-        if (specificSet) finalSettings = specificSet;
+      // Load personal settings for all users (including admin)
+      let query = supabase.from('invoice_settings').select('*');
+      if (user.plan === 'enterprise' && user.companyId) {
+        query = query.eq('company_id', user.companyId);
+      } else {
+        query = query.eq('user_id', user.id);
       }
+      const { data: specificSet } = await query.maybeSingle();
+      if (specificSet) finalSettings = specificSet;
+
 
       if (finalSettings) {
         setInvoiceSettings({
