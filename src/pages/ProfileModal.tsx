@@ -166,7 +166,7 @@ export function ProfileModal({ onClose }: { onClose: () => void }) {
                 {lang === 'ar' ? 'تغيير عبر الرابط فقط' : 'Change via link only'}
               </div>
             </div>
-            <Button type="button" variant="outline" size="sm" onClick={handleResetEmail} disabled={loadingSecurity}>
+            <Button type="button" variant="default" size="sm" onClick={handleResetEmail} disabled={loadingSecurity}>
               {loadingSecurity ? '...' : (lang === 'ar' ? 'إرسال رابط 🔗' : 'Reset Link 🔗')}
             </Button>
           </div>

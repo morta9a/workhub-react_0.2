@@ -14,12 +14,12 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
   useEffect(() => {
     let running = true;
     let particles: any[] = [];
-    const ctx = canvasRef.current?.getContext('2d');
-    const stage = stageRef.current;
-    const wrap = wrapRef.current;
-    const mainSvg = mainSvgRef.current;
-    const textWrap = textWrapRef.current;
-    const canvas = canvasRef.current;
+    const canvas = canvasRef.current as HTMLCanvasElement;
+    const ctx = canvas?.getContext('2d') as CanvasRenderingContext2D;
+    const stage = stageRef.current as HTMLDivElement;
+    const wrap = wrapRef.current as HTMLDivElement;
+    const mainSvg = mainSvgRef.current as SVGSVGElement;
+    const textWrap = textWrapRef.current as HTMLDivElement;
 
     if (!ctx || !stage || !wrap || !mainSvg || !textWrap || !canvas) return;
 

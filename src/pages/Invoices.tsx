@@ -326,7 +326,7 @@ export default function InvoicesPage() {
 
       toolbar={<InvoicesToolbar view={invView} onView={setInvView} onNew={handleNew} onReport={() => setReportOpen(true)} onClear={() => setItems([])} onAi={() => { }} counts={{ pending: pendingInvoices.length, overdue: overdueInvoices.length }} />}
     >
-      <PageHeader title="نظام الفواتير المطور" subtitle="إدارة المبيعات والمخازن بدقة واحترافية" />
+      <PageHeader title="نظام الفواتير المطور" subtitle="إدارة المبيعات والمخازن بدقة واحترافية" icon="📄" />
 
       {invView === 'form' && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem', alignItems: 'stretch' }}>
@@ -359,7 +359,7 @@ export default function InvoicesPage() {
                 <label style={{ fontSize: '0.7rem', color: 'var(--muted)' }}>رمز العميل / Dealer No. <input style={inp} value={dealerNo} onChange={e => setDealerNo(e.target.value)} /></label>
               </div>
 
-              <SectionLabel style={{ margin: 0 }}>الأصناف</SectionLabel>
+              <SectionLabel>الأصناف</SectionLabel>
               <div style={{ overflowX: 'auto', border: '1px solid var(--border)', borderRadius: 8, padding: '0.15rem', background: 'var(--bg2)', flex: 1, overflowY: 'auto' }}>
                 <table style={{ width: '100%', minWidth: 600, fontSize: '0.65rem', borderCollapse: 'collapse' }}>
                   <thead>
