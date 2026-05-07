@@ -426,7 +426,7 @@ export default function InvoicesPage() {
 
           <Card style={{ height: '90vh' }}>
             <CardHeader title="معاينة حية (A4)" actions={designMode ? <span style={{ fontSize: '0.65rem', color: 'var(--accent)' }}>✨ جرب تحريك الحقول بالأسفل</span> : null} />
-            <CardBody style={{ padding: '1rem', background: '#ccc', height: 'calc(90vh - 60px)', display: 'flex', flexDirection: 'column', alignItems: 'center', overflowY: 'auto' }}>
+            <CardBody style={{ padding: '1rem', background: '#ccc', height: 'calc(90vh - 60px)', display: 'flex', flexDirection: 'column', alignItems: 'center', overflowY: 'auto', overflowX: 'auto' }}>
               {designMode && (
                 <div style={{ width: '100%', background: 'var(--bg2)', padding: '1rem', borderRadius: 12, marginBottom: '1rem', border: '1px solid var(--accent)', boxShadow: '0 4px 20px rgba(108,99,255,.15)' }}>
                   <div style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '0.8rem', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -458,7 +458,7 @@ export default function InvoicesPage() {
                   <button onClick={() => { setLayout({ client: { x: 0, y: 0 }, invoice: { x: 0, y: 0 }, table: { x: 0, y: 0 }, totals: { x: 0, y: 0 }, footer: { x: 0, y: 0 } }); setCustomText({}); setHiddenFields([]); setLogoUrl(''); updateInvoiceSettings({ layout: { client: { x: 0, y: 0 }, invoice: { x: 0, y: 0 }, table: { x: 0, y: 0 }, totals: { x: 0, y: 0 }, footer: { x: 0, y: 0 } }, customText: {}, hiddenFields: [], logoUrl: '' }); toast('🔄 تمت إعادة الضبط بالكامل'); }} style={{ marginTop: '0.8rem', width: '100%', padding: '0.4rem', borderRadius: 6, border: '1px solid var(--border)', background: 'transparent', color: 'var(--muted)', fontSize: '0.7rem', cursor: 'pointer' }}>🔄 إعادة ضبط المصنع</button>
                 </div>
               )}
-              <div ref={previewRef} style={{ width: '100%', maxWidth: '210mm', background: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.2)' }}>
+              <div ref={previewRef} style={{ width: '210mm', minWidth: '210mm', height: '297mm', background: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.2)', flexShrink: 0 }}>
                 <InvoiceDesign
                   invNum={invNum}
                   invDate={invDate}
