@@ -186,17 +186,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const updateInvoiceSettings = async (settings: InvoiceSettings) => {
     if (!user) return;
     
-    const isSuperAdmin = user.email === 'admin@workhub.io';
-    const isEnterprise = user.plan === 'enterprise';
-    
-    const targetUserId = isSuperAdmin ? null : user.id;
-    const targetCompanyId = isEnterprise ? user.companyId : null;
-    const isGlobal = isSuperAdmin;
+    const isEnterprise = user.plan === 'enterprise' && user.email !== 'admin@workhub.io';
+    const targetCompanyId = isEnterprise && user.companyId ? user.companyId : null;
 
     const payload = {
-      user_id: targetUserId,
+      user_id: user.id,
       company_id: targetCompanyId,
-      is_global: isGlobal,
+      is_global: false,
       layout: settings.layout,
       custom_text: settings.customText,
       hidden_fields: settings.hiddenFields,
@@ -204,9 +200,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     };
 
     let existingQuery = supabase.from('invoice_settings').select('id');
-    if (isGlobal) {
-      existingQuery = existingQuery.eq('is_global', true);
-    } else if (isEnterprise && targetCompanyId) {
+    if (isEnterprise && targetCompanyId) {
       existingQuery = existingQuery.eq('company_id', targetCompanyId);
     } else {
       existingQuery = existingQuery.eq('user_id', user.id);
@@ -216,12 +210,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     
     if (existing) {
       const { error } = await supabase.from('invoice_settings').update(payload).eq('id', existing.id);
-      if (!error) setInvoiceSettings(settings);
+      if (error) console.error('Update error:', error.message);
+      else setInvoiceSettings(settings);
     } else {
       const { error } = await supabase.from('invoice_settings').insert(payload);
-      if (!error) setInvoiceSettings(settings);
+      if (error) console.error('Insert error:', error.message);
+      else setInvoiceSettings(settings);
     }
   };
+
 
   const addProduct = async (p: import('../types').Product) => {
     if (!user) return;
