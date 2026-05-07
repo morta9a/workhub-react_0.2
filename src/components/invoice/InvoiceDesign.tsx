@@ -425,20 +425,12 @@ export const InvoiceDesign: React.FC<InvoiceDesignProps> = ({
           <g transform={getPos('notes_box_group', 380, 850)} style={groupStyle} onMouseDown={e => { e.stopPropagation(); onMoveStart?.('notes_box_group', e); }}>
             <rect x="0" y="0" width="364" height="110" rx="8" fill="#fcfcfc" stroke="#eee" strokeWidth="1"/>
             {[1, 2, 3, 4].map(i => <line key={i} x1="10" y1={i * 22} x2="354" y2={i * 22} stroke="#eee" strokeWidth="0.5" strokeDasharray="4,2"/>)}
-            <foreignObject x="10" y="5" width="344" height="100">
-              {/* @ts-ignore - xmlns is required for foreignObject html to render in SVG */}
-              <div xmlns="http://www.w3.org/1999/xhtml" style={{ 
-                fontSize: '10px', 
-                color: '#555', 
-                textAlign: 'right', 
-                fontFamily: 'Tajawal, sans-serif', 
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                lineHeight: '1.6'
-              }}>
-                {notes}
-              </div>
-            </foreignObject>
+            <foreignObject 
+              x="10" y="5" width="344" height="100"
+              dangerouslySetInnerHTML={{
+                __html: `<div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 10px; color: #555; text-align: right; font-family: Tajawal, sans-serif; white-space: pre-wrap; word-break: break-word; line-height: 1.6;">${notes.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`
+              }}
+            />
             {designMode && <text x="375" y="0" fontSize="10" fill="#ef4444" style={{cursor:'pointer'}} onClick={() => onToggleField?.('notes_sec')}>×</text>}
           </g>
 

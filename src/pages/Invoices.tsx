@@ -326,24 +326,32 @@ export default function InvoicesPage() {
 
       toolbar={<InvoicesToolbar view={invView} onView={setInvView} onNew={handleNew} onReport={() => setReportOpen(true)} onClear={() => setItems([])} onAi={() => { }} counts={{ pending: pendingInvoices.length, overdue: overdueInvoices.length }} />}
     >
+      <style>{`
+        .inv-main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; align-items: stretch; }
+        .inv-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; flex-shrink: 0; }
+        .inv-form-grid-small { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
+        @media (max-width: 768px) {
+          .inv-main-grid, .inv-form-grid, .inv-form-grid-small { grid-template-columns: 1fr; }
+        }
+      `}</style>
       <PageHeader title="نظام الفواتير المطور" subtitle="إدارة المبيعات والمخازن بدقة واحترافية" icon="📄" />
 
       {invView === 'form' && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.2rem', alignItems: 'stretch' }}>
+        <div className="inv-main-grid">
           <Card style={{ height: '90vh' }}>
             <CardHeader title="تعديل الفاتورة" />
             <CardBody style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', height: 'calc(90vh - 60px)', overflow: 'hidden', paddingBottom: 0 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem', flexShrink: 0 }}>
+              <div className="inv-form-grid">
                 <label style={{ fontSize: '0.7rem', color: 'var(--muted)' }}>التاريخ / Date <input type="date" style={inp} value={invDate} onChange={e => setInvDate(e.target.value)} /></label>
                 <label style={{ fontSize: '0.7rem', color: 'var(--muted)' }}>الاسم / Name <input style={inp} value={clientName} onChange={e => setClientName(e.target.value)} /></label>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem', flexShrink: 0 }}>
+              <div className="inv-form-grid">
                 <label style={{ fontSize: '0.7rem', color: 'var(--muted)' }}>رقم المخزن / Store ID <input style={inp} value={storeId} onChange={e => setStoreId(e.target.value)} /></label>
                 <label style={{ fontSize: '0.7rem', color: 'var(--muted)' }}>العنوان / Address <input style={inp} value={clientDet} onChange={e => setClientDet(e.target.value)} /></label>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.7rem', flexShrink: 0 }}>
+              <div className="inv-form-grid">
                 <label style={{ fontSize: '0.7rem', color: 'var(--muted)' }}>العملة / Currency 
                   <select 
                     style={inp} 
@@ -401,7 +409,7 @@ export default function InvoicesPage() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                <div className="inv-form-grid-small">
                   <label style={{ fontSize: '0.6rem', color: 'var(--muted)' }}>الضريبة % <input type="number" style={{ ...inp, padding: '0.2rem' }} value={taxRate} onChange={e => setTaxRate(+e.target.value)} /></label>
                   <label style={{ fontSize: '0.6rem', color: 'var(--muted)' }}>الخصم % <input type="number" style={{ ...inp, padding: '0.2rem' }} value={discount} onChange={e => setDiscount(+e.target.value)} /></label>
                 </div>
@@ -428,7 +436,7 @@ export default function InvoicesPage() {
                       <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleLogoUpload} />
                     </label>
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem' }}>
+                  <div className="inv-form-grid" style={{ gap: '0.8rem' }}>
                     {(Object.keys(layout) as (keyof typeof layout)[]).map(section => (
                       <div key={section} style={{ background: 'var(--bg3)', padding: '0.6rem', borderRadius: 8 }}>
                         <div style={{ fontSize: '0.65rem', color: 'var(--muted)', marginBottom: '0.4rem', textTransform: 'capitalize' }}>
