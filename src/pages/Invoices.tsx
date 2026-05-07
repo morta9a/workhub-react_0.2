@@ -458,7 +458,7 @@ export default function InvoicesPage() {
                   <button onClick={() => { setLayout({ client: { x: 0, y: 0 }, invoice: { x: 0, y: 0 }, table: { x: 0, y: 0 }, totals: { x: 0, y: 0 }, footer: { x: 0, y: 0 } }); setCustomText({}); setHiddenFields([]); setLogoUrl(''); updateInvoiceSettings({ layout: { client: { x: 0, y: 0 }, invoice: { x: 0, y: 0 }, table: { x: 0, y: 0 }, totals: { x: 0, y: 0 }, footer: { x: 0, y: 0 } }, customText: {}, hiddenFields: [], logoUrl: '' }); toast('🔄 تمت إعادة الضبط بالكامل'); }} style={{ marginTop: '0.8rem', width: '100%', padding: '0.4rem', borderRadius: 6, border: '1px solid var(--border)', background: 'transparent', color: 'var(--muted)', fontSize: '0.7rem', cursor: 'pointer' }}>🔄 إعادة ضبط المصنع</button>
                 </div>
               )}
-              <div ref={previewRef} style={{ width: '210mm', minWidth: '210mm', height: '297mm', background: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.2)', flexShrink: 0 }}>
+              <div ref={previewRef} style={{ width: '100%', maxWidth: '210mm', aspectRatio: '1/1.414', background: '#fff', boxShadow: '0 0 20px rgba(0,0,0,0.2)', flexShrink: 0, overflow: 'hidden' }}>
                 <InvoiceDesign
                   invNum={invNum}
                   invDate={invDate}

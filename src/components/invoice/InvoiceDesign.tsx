@@ -79,9 +79,9 @@ export const InvoiceDesign: React.FC<InvoiceDesignProps> = ({
       xmlns="http://www.w3.org/2000/svg" 
       viewBox="0 0 794 1123" 
       width="100%" 
-      height="100%" 
-      preserveAspectRatio="xMidYMid meet"
-      style={{ display: 'block', background: '#fff', userSelect: designMode ? 'none' : 'auto' }}
+      height="auto" 
+      preserveAspectRatio="xMinYMin meet"
+      style={{ display: 'block', background: '#fff', userSelect: designMode ? 'none' : 'auto', overflow: 'hidden' }}
     >
 
 
