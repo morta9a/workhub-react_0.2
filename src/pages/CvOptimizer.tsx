@@ -164,7 +164,7 @@ export default function CvOptimizerPage() {
           <Button size="sm" onClick={state === 'result' ? handleShare : () => toast('⚠️ حسّن السيرة أولاً')}>🔗 مشاركة</Button>
           <Button size="sm" onClick={state === 'result' ? () => handlePdf() : () => toast('⚠️ حسّن السيرة أولاً')}>📥 PDF</Button>
           <Button size="sm" onClick={state === 'result' ? () => handleWord() : () => toast('⚠️ حسّن السيرة أولاً')}>📝 Word</Button>
-          <Button size="sm" variant="primary">✦ ترقية</Button>
+
         </>
       }
       toolbar={

@@ -185,7 +185,7 @@ ${notes ? '\nشروط إضافية: ' + notes : ''}`;
           {([{label:'🔗 مشاركة',fn:handleShare,bg:'rgba(56,189,248,.12)',color:'#38bdf8',border:'rgba(56,189,248,.3)'},{label:'🖨️ PDF',fn:handlePrint,bg:'rgba(108,99,255,.12)',color:'#a78bfa',border:'rgba(108,99,255,.3)'},{label:'📝 Word',fn:handleWord,bg:'rgba(52,211,153,.1)',color:'var(--green)',border:'rgba(52,211,153,.25)'}]).map(b=>(
             <button key={b.label} onClick={b.fn} style={{background:b.bg,color:b.color,border:`1px solid ${b.border}`,padding:'0.28rem 0.9rem',borderRadius:100,fontSize:'0.75rem',fontWeight:700,cursor:'pointer',fontFamily:'var(--font-ar)',whiteSpace:'nowrap',transition:'all .15s'}}>{b.label}</button>
           ))}
-          <button style={{background:'linear-gradient(135deg,rgba(108,99,255,.8),rgba(56,189,248,.8))',color:'#fff',border:'none',padding:'0.28rem 0.9rem',borderRadius:100,fontSize:'0.75rem',fontWeight:700,cursor:'pointer',fontFamily:'var(--font-ar)',whiteSpace:'nowrap'}}>✦ ترقية</button>
+
         </>
       }
       toolbar={

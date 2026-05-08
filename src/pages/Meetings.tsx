@@ -150,7 +150,7 @@ export default function MeetingsPage() {
           <Button size="sm" onClick={state === 'result' ? handleShare : () => toast('⚠️ املأ الاجتماع أولاً')}>⬆ مشاركة</Button>
           <Button size="sm" onClick={state === 'result' ? () => { window.print(); toast('🖨️ جارٍ الطباعة…'); } : () => toast('⚠️ املأ الاجتماع أولاً')}>📥 PDF</Button>
           <Button variant="accent" size="sm" onClick={() => toast('◼ Notion: سيتوفر قريباً — اربط حسابك من الإعدادات')}>◼ Notion</Button>
-          <Button variant="primary" size="sm">✦ ترقية</Button>
+
         </>
       }
       toolbar={<MeetingsToolbar view={meetView} onView={v => { setMeetView(v); if (v === 'upload') setState('upload'); }} onExport={handleExport} onAi={() => toast('✦ مساعد WorkHub جاهز…')} />}

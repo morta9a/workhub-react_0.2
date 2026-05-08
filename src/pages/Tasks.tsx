@@ -207,7 +207,7 @@ export default function TasksPage() {
           <Button size="sm" onClick={() => toast('تصدير ✓')}>📤 تصدير</Button>
           <Button size="sm" onClick={() => toast('مشاركة مع الفريق ✓')}>👥 مشاركة</Button>
           <Button size="sm" onClick={() => { setFocusTask('مراجعة عقد العميل'); setFocusOpen(true); resetTimer(); }}>⏱️ تركيز</Button>
-          <Button size="sm" variant="primary">✦ ترقية</Button>
+
         </>
       }
       toolbar={<TasksToolbar onAiPrioritize={aiPrioritize} filter={filter} onFilter={setFilter} sort={sort} onSort={setSort} />}
