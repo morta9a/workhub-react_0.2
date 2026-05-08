@@ -98,9 +98,30 @@ export function UpgradeModal({ onClose }: UpgradeModalProps) {
   return (
     <div
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
-      style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.85)', backdropFilter: 'blur(10px)', zIndex: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
+      style={{ 
+        position: 'fixed', inset: 0, 
+        background: 'rgba(0,0,0,.85)', 
+        backdropFilter: 'blur(10px)', 
+        zIndex: 300, 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        padding: '1rem',
+        overflowY: 'auto'
+      }}
     >
-      <div style={{ background: 'var(--bg2)', border: '1px solid var(--border2)', borderRadius: 24, padding: '2rem', width: '100%', maxWidth: 860, position: 'relative', maxHeight: '90vh', overflowY: 'auto' }}>
+      <div style={{ 
+        background: 'var(--bg2)', 
+        border: '1px solid var(--border2)', 
+        borderRadius: 24, 
+        padding: '2rem', 
+        width: '100%', 
+        maxWidth: 860, 
+        position: 'relative', 
+        maxHeight: '90vh', 
+        overflowY: 'auto',
+        margin: 'auto'
+      }}>
         <button onClick={onClose}
           style={{ position: 'absolute', top: '1.2rem', left: '1.2rem', background: 'var(--bg3)', border: '1px solid var(--border)', color: 'var(--muted)', width: 32, height: 32, borderRadius: '50%', cursor: 'pointer', fontSize: '0.85rem' }}>✕</button>
 
@@ -118,7 +139,12 @@ export function UpgradeModal({ onClose }: UpgradeModalProps) {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1rem' }}>
+        <style>{`
+          .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+          @media (max-width: 700px) { .plans-grid { grid-template-columns: 1fr; } }
+          @media (max-width: 900px) and (min-width: 701px) { .plans-grid { grid-template-columns: repeat(2, 1fr); } }
+        `}</style>
+        <div className="plans-grid">
           {PLANS.map(plan => {
             const isCurrentPlan = user?.plan === plan.id;
             const yearlyPrice = plan.price === '$0' ? '$0' : `$${Math.round(parseInt(plan.price.replace('$','')) * 0.8 * 12)}`;
