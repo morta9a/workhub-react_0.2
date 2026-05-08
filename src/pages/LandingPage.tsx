@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import workhubIcon from '../svg/workhub-icon.svg';
-import HeroAnimation from '../components/ui/HeroAnimation';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -96,28 +95,19 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section id="hero" style={{ paddingTop: 140, paddingBottom: 60, paddingLeft: '2rem', paddingRight: '2rem' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem', alignItems: 'center' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
           
           {/* Text Content */}
-          <div className="fade-in" style={{ paddingLeft: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem', color: '#1a1a1a' }}>
-              <img src={workhubIcon} alt="icon" style={{ width: 24, height: 24 }} />
-              <span style={{ fontWeight: 700, fontSize: '1.2rem', fontFamily: 'var(--font-en)' }}>WorkHub</span>
-            </div>
+          <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 900, color: '#1a1a1a', lineHeight: 1.2, marginBottom: '1rem' }}>
               مرحباً، نحن منصة <br /> <span style={{ color: '#f08c3e' }}>WorkHub.</span>
             </h1>
-            <p style={{ fontSize: '1.2rem', color: '#666', lineHeight: 1.6, marginBottom: '2.5rem', maxWidth: 500 }}>
+            <p style={{ fontSize: '1.2rem', color: '#666', lineHeight: 1.6, marginBottom: '2.5rem', maxWidth: 600 }}>
               شغفنا هو بناء تجارب مستخدم استثنائية وإدارة أعمالك بذكاء. نظام متكامل يجمع كل ما تحتاجه في مكان واحد.
             </p>
             <button onClick={handleLoginClick} className="portfolio-pill-btn" style={{ padding: '14px 32px', fontSize: '1.1rem' }}>
               تواصل معنا
             </button>
-          </div>
-
-          {/* Animation Content */}
-          <div className="fade-in-2" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <HeroAnimation />
           </div>
         </div>
       </section>
