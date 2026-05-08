@@ -491,12 +491,10 @@ body {
 
 .portfolio-card-slider {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 24px;
-  overflow-x: auto;
   padding: 40px 20px;
-  scroll-snap-type: x mandatory;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 .portfolio-card-slider::-webkit-scrollbar {
   display: none;
