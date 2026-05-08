@@ -88,7 +88,7 @@ export default function LandingPage() {
           </div>
 
           <button onClick={handleLoginClick} className="portfolio-pill-btn">
-            {user ? 'لوحة التحكم' : 'دخول المنصة'}
+            {user ? 'لوحة التحكم' : 'سجل الآن'}
           </button>
         </div>
       </nav>
@@ -106,7 +106,7 @@ export default function LandingPage() {
               شغفنا هو بناء تجارب مستخدم استثنائية وإدارة أعمالك بذكاء. نظام متكامل يجمع كل ما تحتاجه في مكان واحد.
             </p>
             <button onClick={handleLoginClick} className="portfolio-pill-btn" style={{ padding: '14px 32px', fontSize: '1.1rem' }}>
-              تواصل معنا
+              سجل الآن
             </button>
           </div>
         </div>
@@ -114,12 +114,13 @@ export default function LandingPage() {
 
       {/* Services Carousel Section */}
       <section id="services" style={{ padding: '6rem 0', overflow: 'hidden' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 2rem', marginBottom: '2rem' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 2rem', marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
             <div style={{ width: 30, height: 2, background: '#f08c3e' }}></div>
             <span style={{ color: '#f08c3e', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Services</span>
+            <div style={{ width: 30, height: 2, background: '#f08c3e' }}></div>
           </div>
-          <h2 style={{ fontSize: '3rem', fontWeight: 900, color: '#1a1a1a' }}>بعض الخدمات التي نقدمها</h2>
+          <h2 style={{ fontSize: '3rem', fontWeight: 900, color: '#1a1a1a', textAlign: 'center' }}>بعض الخدمات التي نقدمها</h2>
         </div>
 
         {/* Carousel Slider */}
@@ -152,11 +153,6 @@ export default function LandingPage() {
           ))}
         </div>
         
-        {/* Carousel Controls */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
-          <button onClick={() => scrollSlider('right')} style={{ width: 40, height: 40, borderRadius: '50%', border: 'none', background: '#f08c3e', color: '#fff', cursor: 'pointer', fontSize: '1.2rem' }}>→</button>
-          <button onClick={() => scrollSlider('left')} style={{ width: 40, height: 40, borderRadius: '50%', border: 'none', background: '#f08c3e', color: '#fff', cursor: 'pointer', fontSize: '1.2rem' }}>←</button>
-        </div>
       </section>
 
       {/* Tech / Skills Section */}
@@ -232,13 +228,26 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Graphic Placeholder (Can be reused animation or graphic) */}
+          {/* Logo Animation */}
           <div className="fade-in-2" style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: 300, height: 300, background: 'url("https://www.transparenttextures.com/patterns/cubes.png"), linear-gradient(135deg, #fdf5ec, #f0ebd8)', borderRadius: '50%', boxShadow: 'inset 0 0 40px rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-              <div style={{ position: 'absolute', bottom: -20, right: 20, width: 80, height: 60, background: '#e0d8c8', borderRadius: 8, transform: 'rotate(-15deg)' }}></div>
-              <div style={{ position: 'absolute', bottom: -10, right: -10, width: 60, height: 50, background: '#d0c8b8', borderRadius: 8, transform: 'rotate(10deg)' }}></div>
-              <span style={{ fontSize: '5rem', filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.1))' }}>📦</span>
-            </div>
+            <img 
+              src={workhubIcon} 
+              alt="WorkHub Logo" 
+              style={{ 
+                width: 250, 
+                height: 250, 
+                filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.1))',
+                animation: 'spin 20s linear infinite' 
+              }} 
+            />
+            <style>
+              {\`
+                @keyframes spin {
+                  from { transform: rotate(0deg); }
+                  to { transform: rotate(360deg); }
+                }
+              \`}
+            </style>
           </div>
         </div>
       </section>
