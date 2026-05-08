@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { UpgradeModal } from '../../pages/Upgrade';
 
 /* ══════════════════════════════
    AI PANEL
@@ -84,8 +86,10 @@ export function PlanCard({
   accentColor = 'var(--accent2)',
 }: PlanCardProps) {
   const pct = Math.round((used / limit) * 100);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 
   return (
+    <>
     <div style={{
       background: 'var(--bg3)', border: '1px solid var(--border)',
       borderRadius: 'var(--radius-md)', padding: '0.75rem 0.9rem',
@@ -109,14 +113,22 @@ export function PlanCard({
         <span>{used} / {limit} {unit}</span>
         <span>{pct}%</span>
       </div>
-      <button style={{
-        width: '100%', background: 'var(--accent)', border: 'none',
-        color: '#fff', padding: '0.42rem', borderRadius: 8,
-        fontSize: '0.75rem', cursor: 'pointer', fontFamily: 'var(--font-ar)',
-        transition: 'background 0.18s',
-      }}>
+      <button 
+        onClick={() => setUpgradeOpen(true)}
+        style={{
+          width: '100%', background: 'var(--accent)', border: 'none',
+          color: '#fff', padding: '0.42rem', borderRadius: 8,
+          fontSize: '0.75rem', cursor: 'pointer', fontFamily: 'var(--font-ar)',
+          transition: 'background 0.18s',
+        }}>
         ⬆ ترقية للاحترافي
       </button>
     </div>
+    
+    {upgradeOpen && createPortal(
+      <UpgradeModal onClose={() => setUpgradeOpen(false)} />,
+      document.body
+    )}
+    </>
   );
 }

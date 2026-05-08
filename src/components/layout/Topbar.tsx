@@ -1,10 +1,12 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { getPageTitle, getCategoryLabel } from '../../data/navigation';
 import { useApp } from '../../contexts/AppContext';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './Topbar.module.css';
 import { ProfileModal } from '../../pages/ProfileModal';
+import { UpgradeModal } from '../../pages/Upgrade';
 import logoDark from '../../svg/workhub-logo-dark.svg';
 import logoLight from '../../svg/workhub-logo-light.svg';
 
@@ -52,11 +54,14 @@ export function Topbar({ actions, onToggleSidebar }: TopbarProps) {
   const { theme, lang, toggleTheme, toggleLang } = useApp();
   const { user } = useAuth();
   const [profileOpen, setProfileOpen] = React.useState(false);
+  const [upgradeOpen, setUpgradeOpen] = React.useState(false);
 
   const pageTitle = getPageTitle(pathname, lang);
   const categoryLabel = getCategoryLabel(pathname, lang);
+  const showUpgradeBtn = user?.plan !== 'enterprise' && user?.email !== 'admin@workhub.io';
 
   return (
+    <>
     <header className={styles.topbar}>
       <button 
         className={styles.hamburger} 
@@ -100,12 +105,19 @@ export function Topbar({ actions, onToggleSidebar }: TopbarProps) {
       <div className={styles.actions}>
         {actions}
 
-        {/* Theme toggle — single button, shows current & next state */}
+        {/* Upgrade button — shown for free/pro users */}
+        {showUpgradeBtn && (
+          <ToggleBtn onClick={() => setUpgradeOpen(true)} title="ترقية خطتك">
+            ✦ ترقية
+          </ToggleBtn>
+        )}
+
+        {/* Theme toggle */}
         <ToggleBtn onClick={toggleTheme} title={theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'}>
           {theme === 'dark' ? '☀️' : '🌙'}
         </ToggleBtn>
 
-        {/* Lang toggle — single button, shows opposite lang on click */}
+        {/* Lang toggle */}
         <ToggleBtn onClick={toggleLang} title={lang === 'ar' ? 'Switch to English' : 'التبديل للعربية'}>
           {lang === 'ar' ? 'EN' : 'ع'}
         </ToggleBtn>
@@ -121,7 +133,17 @@ export function Topbar({ actions, onToggleSidebar }: TopbarProps) {
           {user?.avatar || '؟'}
         </div>
       </div>
-      {profileOpen && <ProfileModal onClose={() => setProfileOpen(false)} />}
     </header>
+
+    {/* Render modals via Portal to escape header's stacking context (backdrop-filter) */}
+    {profileOpen && createPortal(
+      <ProfileModal onClose={() => setProfileOpen(false)} />,
+      document.body
+    )}
+    {upgradeOpen && createPortal(
+      <UpgradeModal onClose={() => setUpgradeOpen(false)} />,
+      document.body
+    )}
+    </>
   );
 }
