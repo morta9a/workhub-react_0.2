@@ -18,46 +18,24 @@ CREATE TABLE invoice_settings (
 );
 
 -- Ensure only one row can have is_global = true
-CREATE UNIQUE INDEX idx_only_one_global ON invoice_settings (is_global) WHERE is_global = true;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_only_one_global ON invoice_settings (is_global) WHERE is_global = true;
+
+-- Grant table access to Supabase roles (REQUIRED when creating via SQL)
+GRANT ALL ON TABLE invoice_settings TO anon;
+GRANT ALL ON TABLE invoice_settings TO authenticated;
 
 -- Setup Row Level Security (RLS)
 ALTER TABLE invoice_settings ENABLE ROW LEVEL SECURITY;
 
--- Policies
--- 1. Everyone can view the global settings
-CREATE POLICY "Everyone can view global settings"
-    ON invoice_settings FOR SELECT
-    USING (is_global = true);
-
--- 2. Users can view their own settings
-CREATE POLICY "Users can view their own invoice settings"
-    ON invoice_settings FOR SELECT
-    USING (auth.uid() = user_id);
-
--- 3. Users in a company can view their company settings
-CREATE POLICY "Users can view company settings"
-    ON invoice_settings FOR SELECT
-    USING (company_id IS NOT NULL AND auth.uid() IN (
-        -- Assuming a users table or metadata mapping exists. 
-        -- In our case, we will handle this mostly at the app level, but this prevents random access.
-        SELECT id FROM auth.users WHERE raw_user_meta_data->>'company_id' = company_id::text
-    ));
-
--- 4. Super Admin can update the global settings (Checking email in jwt)
-CREATE POLICY "Super Admin can insert global settings"
-    ON invoice_settings FOR INSERT
-    WITH CHECK (
-        (is_global = true AND auth.jwt() ->> 'email' = 'admin@workhub.io')
-        OR
-        (is_global = false AND auth.uid() = user_id)
-    );
-
-CREATE POLICY "Super Admin can update global settings"
-    ON invoice_settings FOR UPDATE
+-- Simple policy: owner or global access
+CREATE POLICY "owner_or_global_access"
+    ON invoice_settings FOR ALL
     USING (
-        (is_global = true AND auth.jwt() ->> 'email' = 'admin@workhub.io')
-        OR
-        (is_global = false AND auth.uid() = user_id)
+        is_global = true
+        OR auth.uid() = user_id
+    )
+    WITH CHECK (
+        auth.uid() = user_id
     );
 
 -- Create a trigger to automatically update the 'updated_at' column

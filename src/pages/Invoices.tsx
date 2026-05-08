@@ -180,7 +180,16 @@ export default function InvoicesPage() {
   const [dragging, setDragging] = useState<{ section: string; startX: number; startY: number; initialX: number; initialY: number } | null>(null);
 
   useEffect(() => {
-    if (invoiceSettings && Object.keys(invoiceSettings.layout || {}).length > 0) {
+    if (!invoiceSettings) return;
+    // Only load from Supabase if localStorage doesn't have meaningful custom text
+    const localText = localStorage.getItem('invoice_text');
+    const localLayout = localStorage.getItem('invoice_layout');
+    const hasLocalData = (localText && JSON.parse(localText) && Object.keys(JSON.parse(localText)).length > 0) ||
+                         (localLayout && JSON.parse(localLayout) && Object.keys(JSON.parse(localLayout)).some(k => {
+                           const v = JSON.parse(localLayout)[k];
+                           return v.x !== 0 || v.y !== 0;
+                         }));
+    if (!hasLocalData && Object.keys(invoiceSettings.layout || {}).length > 0) {
       setLayout(invoiceSettings.layout as Record<string, { x: number; y: number }>);
       setCustomText(invoiceSettings.customText);
       setHiddenFields(invoiceSettings.hiddenFields);
