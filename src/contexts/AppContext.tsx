@@ -186,21 +186,26 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const updateInvoiceSettings = async (settings: InvoiceSettings) => {
     if (!user) return;
     
-    const isEnterprise = user.plan === 'enterprise' && user.email !== 'admin@workhub.io';
+    const isAdmin = user.email === 'admin@workhub.io';
+    const isEnterprise = user.plan === 'enterprise' && !isAdmin;
     const targetCompanyId = isEnterprise && user.companyId ? user.companyId : null;
 
     const payload = {
       user_id: user.id,
       company_id: targetCompanyId,
-      is_global: false,
+      is_global: isAdmin, // Admin saves as global template for all users
       layout: settings.layout,
       custom_text: settings.customText,
       hidden_fields: settings.hiddenFields,
       logo_url: settings.logoUrl
     };
 
+    // Find existing record
     let existingQuery = supabase.from('invoice_settings').select('id');
-    if (isEnterprise && targetCompanyId) {
+    if (isAdmin) {
+      // Admin looks for global record or their own record
+      existingQuery = existingQuery.eq('user_id', user.id);
+    } else if (isEnterprise && targetCompanyId) {
       existingQuery = existingQuery.eq('company_id', targetCompanyId);
     } else {
       existingQuery = existingQuery.eq('user_id', user.id);
@@ -218,6 +223,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       else setInvoiceSettings(settings);
     }
   };
+
 
 
   const addProduct = async (p: import('../types').Product) => {
