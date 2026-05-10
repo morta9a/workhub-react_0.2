@@ -7,16 +7,30 @@ import { useApp } from '../contexts/AppContext';
 import type { Appointment } from '../types';
 
 // Fake Data for Calendar
+// Dynamic Calendar Logic
+const now = new Date();
+const currentMonth = now.getMonth(); // 0-indexed
+const currentYear = now.getFullYear();
+const TODAY = now.getDate();
+
+const MONTH_NAMES = [
+  'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+];
+
 const DAYS = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-const MONTH_DAYS = 30;
-const START_DAY = 3; // Starts on Wednesday for April 2026
-const TODAY = 21; // Assuming today is 21st April 2026
+const daysInMonth = (month: number, year: number) => new Date(year, month + 1, 0).getDate();
+const startDayOfMonth = (month: number, year: number) => new Date(year, month, 1).getDay();
+
+const MONTH_DAYS = daysInMonth(currentMonth, currentYear);
+const START_DAY = startDayOfMonth(currentMonth, currentYear);
 
 export default function Calendar() {
   const { toast } = useToast();
-  const { appointments: apps, addAppointment, updateAppointment, deleteAppointment } = useApp();
-  const [selectedDay, setSelectedDay] = useState<number | null>(15);
+  const { appointments: apps, addAppointment, updateAppointment, deleteAppointment, tasks } = useApp();
+  const [selectedDay, setSelectedDay] = useState<number | null>(new Date().getDate());
   const [view, setView] = useState<'month' | 'list'>('month');
+  const [newReminder, setNewReminder] = useState(false);
 
   // Modal State
   const [showModal, setShowModal] = useState(false);
@@ -24,12 +38,34 @@ export default function Calendar() {
   const [aiPanelVisible, setAiPanelVisible] = useState(true);
   const [newTitle, setNewTitle] = useState('');
   const [newClient, setNewClient] = useState('');
+  const [newDate, setNewDate] = useState(now.toISOString().split('T')[0]);
   const [newTime, setNewTime] = useState('10:00');
-  const [newDay, setNewDay] = useState<number>(selectedDay && selectedDay >= TODAY ? selectedDay : TODAY);
   const [newType, setNewType] = useState<'meeting' | 'call' | 'review' | 'other'>('meeting');
   const [newCustomType, setNewCustomType] = useState('');
 
-  const selectedApps = apps.filter(a => a.day === selectedDay);
+  // Merge appointments and timed tasks
+  const combinedApps = [
+    ...apps.map(a => ({ ...a, origin: 'appointment' as const })),
+    ...tasks
+      .filter(t => t.time && t.date)
+      .map(t => {
+        // Extract day from date string e.g. '2026-04-21' -> 21
+        const dayMatch = t.date.match(/-(\d{2})$/);
+        const day = dayMatch ? parseInt(dayMatch[1]) : 0;
+        return {
+          id: `task-${t.id}`,
+          title: t.title,
+          client: t.assignee,
+          time: t.time as string,
+          day,
+          type: 'review' as const, // Default color for tasks
+          origin: 'task' as const,
+          reminder: t.reminder
+        };
+      })
+  ];
+
+  const selectedApps = combinedApps.filter(a => a.day === selectedDay);
 
   const getTypeColor = (type: string) => {
     switch (type) {
@@ -52,8 +88,16 @@ export default function Calendar() {
       toast('⚠️ يرجى ملء جميع الحقول المطلوبة');
       return;
     }
-    if (newDay < TODAY) {
-      toast('⚠️ لا يمكن تحديد موعد قبل تاريخ اليوم');
+    const selectedDateObj = new Date(newDate);
+    const day = selectedDateObj.getDate();
+    
+    // Simple check: Allow if it's the same day or future
+    const todayObj = new Date();
+    todayObj.setHours(0,0,0,0);
+    selectedDateObj.setHours(0,0,0,0);
+
+    if (selectedDateObj < todayObj) {
+      toast('⚠️ لا يمكن تحديد موعد في تاريخ سابق');
       return;
     }
     const newAppointment: Appointment = {
@@ -61,9 +105,11 @@ export default function Calendar() {
       title: newTitle,
       client: newClient,
       time: newTime,
-      day: newDay,
+      date: newDate,
+      day: day,
       type: newType,
       customType: newType === 'other' ? newCustomType : undefined,
+      reminder: newReminder,
     };
     if (editId !== null) {
       updateAppointment(editId.toString(), newAppointment);
@@ -85,8 +131,9 @@ export default function Calendar() {
     setNewTitle(a.title);
     setNewClient(a.client);
     setNewTime(a.time);
-    setNewDay(a.day);
+    setNewDate(a.date || `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(a.day).padStart(2, '0')}`);
     setNewType(a.type);
+    setNewReminder(!!a.reminder);
     if (a.type === 'other' && a.customType) setNewCustomType(a.customType);
     setShowModal(true);
   };
@@ -119,7 +166,7 @@ export default function Calendar() {
 
   const renderCalendar = () => {
     if (view === 'list') {
-      const sortedApps = [...apps].sort((a, b) => a.day - b.day);
+      const sortedApps = [...combinedApps].sort((a, b) => a.day - b.day);
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
           {sortedApps.map(a => {
@@ -134,15 +181,21 @@ export default function Calendar() {
                   <div style={{ fontSize: '0.95rem', fontWeight: 'bold', marginBottom: '0.3rem' }}>{a.title}</div>
                   <div style={{ fontSize: '0.8rem', color: 'var(--muted)', display: 'flex', gap: '1rem' }}>
                     <span>👤 {a.client}</span>
-                    <span>📅 {a.day} أبريل</span>
+                    <span>📅 {a.day} {MONTH_NAMES[currentMonth]}</span>
                     <span>🕒 {a.time}</span>
                     <span style={{ color: colors.color, background: colors.bg, padding: '0 0.4rem', borderRadius: '4px' }}>{a.type === 'other' ? a.customType : colors.label}</span>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <Button variant="green" size="sm" onClick={handleJoin}>انضمام 📧</Button>
-                  <Button variant="accent" size="sm" onClick={() => openEditModal(a)}>تعديل ✏️</Button>
-                  <Button variant="ghost" size="sm" onClick={() => handleDelete(a.id)}>إلغاء 🗑</Button>
+                  {a.origin === 'appointment' ? (
+                    <>
+                      <Button variant="green" size="sm" onClick={handleJoin}>انضمام 📧</Button>
+                      <Button variant="accent" size="sm" onClick={() => openEditModal(a as any)}>تعديل ✏️</Button>
+                      <Button variant="ghost" size="sm" onClick={() => handleDelete(a.id)}>إلغاء 🗑</Button>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: '0.75rem', color: 'var(--muted2)' }}>مهمة ذكية ✅</span>
+                  )}
                 </div>
               </div>
             );
@@ -155,29 +208,37 @@ export default function Calendar() {
     const blanks = Array.from({ length: START_DAY }, (_, i) => <div key={`b-${i}`} style={{ minHeight: '100px', borderRadius: '8px' }} />);
     const days = Array.from({ length: MONTH_DAYS }, (_, i) => {
       const d = i + 1;
-      const dayApps = apps.filter(a => a.day === d);
+      const dayApps = combinedApps.filter(a => a.day === d);
       const isSelected = selectedDay === d;
+      const isToday = d === TODAY && currentMonth === now.getMonth() && currentYear === now.getFullYear();
       return (
         <div 
           key={d} 
           onClick={() => setSelectedDay(d)}
           style={{
             minHeight: '100px',
-            border: `1px solid ${isSelected ? 'var(--accent2)' : 'var(--border)'}`,
+            border: isToday ? '2px solid var(--accent2)' : `1px solid ${isSelected ? 'var(--accent2)' : 'var(--border)'}`,
             padding: '0.5rem',
-            background: isSelected ? 'rgba(108,99,255,.05)' : 'var(--bg2)',
+            background: isToday ? 'rgba(108,99,255,.08)' : (isSelected ? 'rgba(108,99,255,.05)' : 'var(--bg2)'),
             cursor: 'pointer',
             transition: 'all 0.2s',
             borderRadius: '8px',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            position: 'relative',
+            boxShadow: isToday ? '0 0 15px rgba(108,99,255,.2)' : 'none'
           }}
         >
+          {isToday && (
+            <div style={{ position: 'absolute', top: -1, right: -1, background: 'var(--accent2)', color: '#fff', fontSize: '0.55rem', padding: '1px 5px', borderRadius: '0 8px 0 8px', fontWeight: 'bold' }}>
+              اليوم
+            </div>
+          )}
           <div style={{ 
-            fontWeight: isSelected ? 'bold' : 'normal', 
-            color: isSelected ? 'var(--accent2)' : 'var(--text)', 
+            fontWeight: (isSelected || isToday) ? 'bold' : 'normal', 
+            color: isToday ? '#fff' : (isSelected ? 'var(--accent2)' : 'var(--text)'), 
             marginBottom: '0.5rem',
-            background: isSelected ? 'rgba(108,99,255,.15)' : 'transparent',
+            background: isToday ? 'var(--accent2)' : (isSelected ? 'rgba(108,99,255,.15)' : 'transparent'),
             width: '24px',
             height: '24px',
             display: 'flex',
@@ -239,7 +300,7 @@ export default function Calendar() {
               <Button variant={view === 'month' ? 'accent' : 'ghost'} size="sm" onClick={() => setView('month')}>📅 تقويم</Button>
               <Button variant={view === 'list' ? 'accent' : 'ghost'} size="sm" onClick={() => setView('list')}>📜 قائمة</Button>
               <ToolbarDivider />
-              <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>أبريل 2026</span>
+              <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{MONTH_NAMES[currentMonth]} {currentYear}</span>
             </ToolbarSection>
             <ToolbarSection align="right">
               <AiButton onClick={handleAiSuggest}>اقتراح مواعيد</AiButton>
@@ -253,8 +314,8 @@ export default function Calendar() {
           title="إدارة المواعيد"
           subtitle="جدولك الزمني ومواعيد عملائك في مكان واحد مدعوم بالذكاء الاصطناعي"
           stats={[
-            { num: apps.length.toString(), label: 'إجمالي هذا الشهر', color: 'var(--accent2)' },
-            { num: selectedApps.length.toString(), label: 'مواعيد اليوم', color: 'var(--green)' },
+            { num: combinedApps.length.toString(), label: 'إجمالي الفعاليات', color: 'var(--accent2)' },
+            { num: selectedApps.length.toString(), label: 'فعاليات اليوم', color: 'var(--green)' },
           ]}
         />
 
@@ -270,7 +331,7 @@ export default function Calendar() {
           {view === 'month' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <Card>
-                <CardHeader title={`مواعيد يوم ${selectedDay} أبريل`} />
+                <CardHeader title={`مواعيد يوم ${selectedDay} ${MONTH_NAMES[currentMonth]}`} />
                 <CardBody>
                   {selectedApps.length > 0 ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
@@ -287,9 +348,17 @@ export default function Calendar() {
                               <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>🕒 {a.time}</span>
                             </div>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                              <Button variant="green" size="sm" style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem' }} onClick={handleJoin}>انضمام 📧</Button>
-                              <Button variant="accent" size="sm" style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem' }} onClick={() => openEditModal(a)}>تعديل ✏️</Button>
-                              <Button variant="ghost" size="sm" style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem' }} onClick={() => handleDelete(a.id)}>إلغاء 🗑</Button>
+                              {a.origin === 'appointment' ? (
+                                <>
+                                  <Button variant="green" size="sm" style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem' }} onClick={handleJoin}>انضمام 📧</Button>
+                                  <Button variant="accent" size="sm" style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem' }} onClick={() => openEditModal(a as any)}>تعديل ✏️</Button>
+                                  <Button variant="ghost" size="sm" style={{ padding: '0.3rem 0.6rem', fontSize: '0.7rem' }} onClick={() => handleDelete(a.id)}>إلغاء 🗑</Button>
+                                </>
+                              ) : (
+                                <div style={{ fontSize: '0.75rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                  ✨ مهمة من "تتبع المهام"
+                                </div>
+                              )}
                             </div>
                           </div>
                         );
@@ -356,15 +425,14 @@ export default function Calendar() {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '1rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '0.4rem' }}>اليوم (أبريل)</label>
+                  <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--muted)', marginBottom: '0.4rem' }}>تاريخ الموعد</label>
                   <input 
-                    type="number" 
-                    min={TODAY} max="30"
-                    value={newDay}
-                    onChange={(e) => setNewDay(Number(e.target.value))}
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg2)', color: 'var(--text)' }}
+                    type="date" 
+                    value={newDate}
+                    onChange={(e) => setNewDate(e.target.value)}
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg2)', color: 'var(--text)', fontFamily: 'var(--font-en)' }}
                   />
                 </div>
                 <div>
@@ -373,7 +441,7 @@ export default function Calendar() {
                     type="time" 
                     value={newTime}
                     onChange={(e) => setNewTime(e.target.value)}
-                    style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg2)', color: 'var(--text)' }}
+                    style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--bg2)', color: 'var(--text)', fontFamily: 'var(--font-en)' }}
                   />
                 </div>
               </div>
@@ -404,6 +472,11 @@ export default function Calendar() {
                   />
                 </div>
               )}
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+                <input type="checkbox" id="rem" checked={newReminder} onChange={e => setNewReminder(e.target.checked)} />
+                <label htmlFor="rem" style={{ fontSize: '0.85rem', cursor: 'pointer' }}>🔔 تفعيل التنبيه للموعد</label>
+              </div>
 
               <div style={{ display: 'flex', gap: '0.8rem', marginTop: '1rem', justifyContent: 'flex-end' }}>
                 <Button variant="ghost" onClick={() => { setShowModal(false); setEditId(null); }}>إلغاء</Button>

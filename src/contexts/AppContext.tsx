@@ -7,6 +7,14 @@ import { useAuth } from './AuthContext';
 export type Theme = 'dark' | 'light';
 export type Lang  = 'ar'   | 'en';
 
+export interface Notification {
+  id: string;
+  title: string;
+  type: 'task' | 'appointment' | 'system';
+  at: Date;
+  read: boolean;
+}
+
 interface AppContextValue {
   theme: Theme;
   lang: Lang;
@@ -58,6 +66,10 @@ interface AppContextValue {
   savedTemplates: SavedTemplate[];
   addSavedTemplate: (st: SavedTemplate) => Promise<void>;
   deleteSavedTemplate: (id: string) => Promise<void>;
+
+  notifications: Notification[];
+  addNotification: (n: Omit<Notification, 'id' | 'read' | 'at'>) => void;
+  markNotificationsRead: () => void;
 }
 
 // @ts-ignore
@@ -79,6 +91,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [meetingsHistory, setMeetingsHistory] = useState<MeetingHistory[]>([]);
   const [timeSessions, setTimeSessions] = useState<TimeSession[]>([]);
   const [savedTemplates, setSavedTemplates] = useState<SavedTemplate[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   // Apply theme & lang
   useEffect(() => {
@@ -145,10 +158,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       if (comps) setCompetitors(comps.map(c => ({ id: c.id, name: c.name, website: c.website, threatLevel: c.threat_level, strengths: c.strengths, weaknesses: c.weaknesses, notes: c.notes })));
 
       const { data: tks } = await supabase.from('tasks').select('*');
-      if (tks) setTasks(tks.map(t => ({ id: t.id, title: t.title, tag: t.tag, tagLabel: t.tag_label, priority: t.priority, aiScore: t.ai_score, date: t.date, assignee: t.assignee, assigneeBg: t.assignee_bg, assigneeColor: t.assignee_color, column: t.column_id } as any)));
+      if (tks) setTasks(tks.map(t => ({ id: t.id, title: t.title, tag: t.tag, tagLabel: t.tag_label, priority: t.priority, aiScore: t.ai_score, date: t.date, time: t.time, assignee: t.assignee, assigneeBg: t.assignee_bg, assigneeColor: t.assignee_color, column: t.column_id, reminder: t.reminder } as any)));
 
       const { data: apps } = await supabase.from('appointments').select('*');
-      if (apps) setAppointments(apps.map(a => ({ id: a.id, title: a.title, client: a.client, time: a.time, day: a.day, type: a.type, customType: a.custom_type } as any)));
+      if (apps) setAppointments(apps.map(a => ({ id: a.id, title: a.title, client: a.client, time: a.time, day: a.day, date: a.date, type: a.type, customType: a.custom_type, reminder: a.reminder } as any)));
 
       const { data: meets } = await supabase.from('meetings').select('*');
       if (meets) setMeetingsHistory(meets.map(m => ({ id: m.id, title: m.title, date: m.date, duration: m.duration, actionsCount: m.actions_count, status: m.status } as any)));
@@ -286,9 +299,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const addTask = async (t: Task) => {
     if (!user) return;
-    const { data, error } = await supabase.from('tasks').insert({ user_id: user.id, title: t.title, tag: t.tag, tag_label: t.tagLabel, priority: t.priority, ai_score: t.aiScore, date: t.date, assignee: t.assignee, assignee_bg: t.assigneeBg, assignee_color: t.assigneeColor, column_id: t.column }).select().single();
+    const { data, error } = await supabase.from('tasks').insert({ user_id: user.id, title: t.title, tag: t.tag, tag_label: t.tagLabel, priority: t.priority, ai_score: t.aiScore, date: t.date, time: t.time, assignee: t.assignee, assignee_bg: t.assigneeBg, assignee_color: t.assigneeColor, column_id: t.column, reminder: t.reminder }).select().single();
     if (error) { console.error('Error:', error.message); alert('خطأ: ' + error.message); }
-    if (data && !error) setTasks(prev => [{ id: data.id, title: data.title, tag: data.tag, tagLabel: data.tag_label, priority: data.priority, aiScore: data.ai_score, date: data.date, assignee: data.assignee, assigneeBg: data.assignee_bg, assigneeColor: data.assignee_color, column: data.column_id } as any, ...prev]);
+    if (data && !error) setTasks(prev => [{ id: data.id, title: data.title, tag: data.tag, tagLabel: data.tag_label, priority: data.priority, aiScore: data.ai_score, date: data.date, time: data.time, assignee: data.assignee, assigneeBg: data.assignee_bg, assigneeColor: data.assignee_color, column: data.column_id, reminder: data.reminder } as any, ...prev]);
   };
   const updateTask = async (id: string, t: Partial<Task>) => {
     if (!user) return;
@@ -298,6 +311,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (t.assigneeBg !== undefined) { payload.assignee_bg = t.assigneeBg; delete payload.assigneeBg; }
     if (t.assigneeColor !== undefined) { payload.assignee_color = t.assigneeColor; delete payload.assigneeColor; }
     if (t.column !== undefined) { payload.column_id = t.column; delete payload.column; }
+    if (t.time !== undefined) { payload.time = t.time; }
+    if (t.reminder !== undefined) { payload.reminder = t.reminder; }
     delete payload.id;
     const { error } = await supabase.from('tasks').update(payload).eq('id', id);
     if (!error) setTasks(prev => prev.map(item => String(item.id) === String(id) ? { ...item, ...t } as any : item));
@@ -310,14 +325,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const addAppointment = async (a: Appointment) => {
     if (!user) return;
-    const { data, error } = await supabase.from('appointments').insert({ user_id: user.id, title: a.title, client: a.client, time: a.time, day: a.day, type: a.type, custom_type: a.customType }).select().single();
+    const { data, error } = await supabase.from('appointments').insert({ user_id: user.id, title: a.title, client: a.client, time: a.time, day: a.day, date: a.date, type: a.type, custom_type: a.customType, reminder: a.reminder }).select().single();
     if (error) { console.error('Error:', error.message); alert('خطأ: ' + error.message); }
-    if (data && !error) setAppointments(prev => [...prev, { id: data.id, title: data.title, client: data.client, time: data.time, day: data.day, type: data.type, customType: data.custom_type } as any]);
+    if (data && !error) setAppointments(prev => [...prev, { id: data.id, title: data.title, client: data.client, time: data.time, day: data.day, date: data.date, type: data.type, customType: data.custom_type, reminder: data.reminder } as any]);
   };
   const updateAppointment = async (id: string, a: Partial<Appointment>) => {
     if (!user) return;
     const payload: any = { ...a };
     if (a.customType !== undefined) { payload.custom_type = a.customType; delete payload.customType; }
+    if (a.date !== undefined) { payload.date = a.date; }
+    if (a.reminder !== undefined) { payload.reminder = a.reminder; }
     delete payload.id;
     const { error } = await supabase.from('appointments').update(payload).eq('id', id);
     if (!error) setAppointments(prev => prev.map(item => String(item.id) === String(id) ? { ...item, ...a } as any : item));
@@ -364,6 +381,26 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!error) setSavedTemplates(prev => prev.filter(item => String(item.id) !== String(id)));
   };
 
+  const addNotification = (n: Omit<Notification, 'id' | 'read' | 'at'>) => {
+    const newN: Notification = {
+      ...n,
+      id: Math.random().toString(36).substr(2, 9),
+      at: new Date(),
+      read: false
+    };
+    setNotifications(prev => [newN, ...prev]);
+    
+    // Play sound if possible
+    try {
+      const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+      audio.play().catch(e => console.log('Audio play failed:', e));
+    } catch (e) {}
+  };
+
+  const markNotificationsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  };
+
   const toggleTheme = () => setTheme(p => p === 'dark' ? 'light' : 'dark');
   const toggleLang  = () => setLang(p =>  p === 'ar'   ? 'en'    : 'ar');
   const t = (ar: string, en: string) => lang === 'ar' ? ar : en;
@@ -380,7 +417,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       appointments, addAppointment, updateAppointment, deleteAppointment,
       meetingsHistory, addMeetingHistory, deleteMeetingHistory,
       timeSessions, addTimeSession, deleteTimeSession,
-      savedTemplates, addSavedTemplate, deleteSavedTemplate
+      savedTemplates, addSavedTemplate, deleteSavedTemplate,
+      notifications, addNotification, markNotificationsRead
     }}>
       {children}
     </AppContext.Provider>

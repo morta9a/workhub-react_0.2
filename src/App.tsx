@@ -1,8 +1,9 @@
-import React, { lazy, Suspense, useState, useEffect } from 'react';
+import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/globals.css';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { AppProvider } from './contexts/AppContext';
+import { AppProvider, useApp } from './contexts/AppContext';
+import { useToast } from './hooks/useToast';
 import SplashScreen from './components/ui/SplashScreen';
 
 // Lazy-load pages
@@ -129,10 +130,11 @@ function PrivateRoutes() {
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
-
+  
   return (
     <AuthProvider>
       <AppProvider>
+        <ReminderManager />
         {showSplash ? (
           <SplashScreen onComplete={() => setShowSplash(false)} />
         ) : (
@@ -151,4 +153,47 @@ export default function App() {
       </AppProvider>
     </AuthProvider>
   );
+}
+
+function ReminderManager() {
+  const { tasks, appointments, addNotification } = useApp();
+  const { toast } = useToast();
+  const notifiedIds = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    const checkReminders = () => {
+      const now = new Date();
+      const currentHourMin = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const todayStr = now.toISOString().split('T')[0];
+
+      // Check Tasks
+      tasks.forEach(t => {
+        if (t.reminder && t.time && t.date === todayStr && t.time === currentHourMin) {
+          const id = `task-${t.id}-${t.time}`;
+          if (!notifiedIds.current.has(id)) {
+            addNotification({ title: `تذكير بمهمة: ${t.title}`, type: 'task' });
+            toast(`🔔 تذكير بمهمة: ${t.title}`);
+            notifiedIds.current.add(id);
+          }
+        }
+      });
+
+      // Check Appointments
+      appointments.forEach(a => {
+        if (a.reminder && a.time && (a.date === todayStr || !a.date) && a.time === currentHourMin) {
+          const id = `app-${a.id}-${a.time}`;
+          if (!notifiedIds.current.has(id)) {
+            addNotification({ title: `موعد الآن: ${a.title}`, type: 'appointment' });
+            toast(`📅 موعد الآن: ${a.title}`);
+            notifiedIds.current.add(id);
+          }
+        }
+      });
+    };
+
+    const interval = setInterval(checkReminders, 30000); // Check every 30s
+    return () => clearInterval(interval);
+  }, [tasks, appointments, toast]);
+
+  return null;
 }

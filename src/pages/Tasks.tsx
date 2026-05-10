@@ -100,7 +100,9 @@ export default function TasksPage() {
   const [addCol,  setAddCol]        = useState<TaskColumn>('todo');
   const [addTitle, setAddTitle]     = useState('');
   const [addPriority, setAddPriority] = useState<'high'|'medium'|'low'>('medium');
-  const [addDate, setAddDate]       = useState('اليوم');
+  const [addDate, setAddDate]       = useState(new Date().toISOString().split('T')[0]);
+  const [addTime, setAddTime]       = useState('');
+  const [addReminder, setAddReminder] = useState(false);
 
   // Filter & sort
   const [filter, setFilter] = useState<FilterMode>('all');
@@ -123,7 +125,8 @@ export default function TasksPage() {
   const offset = circumference - (pct / 100) * circumference;
 
   function openAdd(col: TaskColumn) {
-    setAddCol(col); setAddTitle(''); setAddPriority('medium'); setAddDate('اليوم');
+    setAddCol(col); setAddTitle(''); setAddPriority('medium'); setAddDate(new Date().toISOString().split('T')[0]);
+    setAddTime(''); setAddReminder(false);
     setAddOpen(true);
   }
 
@@ -134,8 +137,10 @@ export default function TasksPage() {
     const task: Task = {
       id: Date.now() as any, title: val, tag: 'purple', tagLabel: 'جديد',
       priority: addPriority, aiScore: PRIORITY_AI[addPriority], date: addDate,
+      time: addTime || undefined,
       assignee: 'أح', assigneeBg: 'rgba(108,99,255,.2)', assigneeColor: 'var(--accent2)',
       column: addCol,
+      reminder: addReminder,
     };
     addTask(task);
     setAddOpen(false);
@@ -331,12 +336,17 @@ export default function TasksPage() {
               ))}
             </div>
 
-            <div style={{ fontSize: '0.72rem', color: 'var(--muted)', marginBottom: '0.3rem' }}>العمود</div>
-            <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.2rem' }}>
-              {COL_CONFIG.map(c => (
-                <button key={c.id} onClick={() => setAddCol(c.id)}
-                  style={{ flex: 1, padding: '0.38rem 0.3rem', borderRadius: 8, cursor: 'pointer', fontSize: '0.7rem', fontFamily: 'var(--font-ar)', border: `1px solid ${addCol === c.id ? c.dot : 'var(--border)'}`, background: addCol === c.id ? 'rgba(255,255,255,.05)' : 'var(--bg3)', color: addCol === c.id ? 'var(--text)' : 'var(--muted)', transition: 'all .15s' }}>{c.label}</button>
-              ))}
+            <div style={{ fontSize: '0.72rem', color: 'var(--muted)', marginBottom: '0.3rem' }}>التاريخ والوقت</div>
+            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+              <input type="date" value={addDate} onChange={e => setAddDate(e.target.value)}
+                style={{ flex: 1.5, background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text)', padding: '0.4rem', borderRadius: 8, fontSize: '0.8rem', outline: 'none' }} />
+              <input type="time" value={addTime} onChange={e => setAddTime(e.target.value)}
+                style={{ flex: 1, background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text)', padding: '0.4rem', borderRadius: 8, fontSize: '0.8rem', outline: 'none' }} />
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.2rem' }}>
+              <input type="checkbox" id="trem_task" checked={addReminder} onChange={e => setAddReminder(e.target.checked)} />
+              <label htmlFor="trem_task" style={{ fontSize: '0.75rem', cursor: 'pointer', color: 'var(--text)' }}>🔔 تفعيل التنبيه للمهمة</label>
             </div>
 
             <button onClick={confirmAdd}
@@ -432,36 +442,51 @@ function TaskCard({ task, onDragStart, onDelete, onFocus }: TaskCardProps) {
         boxShadow: hovered ? '0 4px 20px rgba(0,0,0,.3)' : 'none',
       }}
     >
-      {/* AI score */}
-      <div style={{ position: 'absolute', top: '0.55rem', left: '0.55rem', fontSize: '0.6rem', fontFamily: 'var(--font-en)', background: 'rgba(108,99,255,.15)', border: '1px solid rgba(108,99,255,.2)', color: 'var(--accent2)', padding: '0.08rem 0.4rem', borderRadius: 5, fontWeight: 600 }}>
-        AI {task.aiScore}
-      </div>
-
-      {/* Title + priority */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '0.5rem', marginBottom: '0.55rem' }}>
-        <div style={{ fontSize: '0.82rem', fontWeight: 500, lineHeight: 1.45, flex: 1 }}>{task.title}</div>
-        <div style={{ fontSize: '0.75rem', flexShrink: 0 }}>{PRIORITY_ICON[task.priority]}</div>
-      </div>
-
-      {/* Meta */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-        <span style={{ fontSize: '0.62rem', padding: '0.12rem 0.5rem', borderRadius: 100, fontFamily: 'var(--font-en)', fontWeight: 600, background: tagColor.bg, color: tagColor.color, border: `1px solid ${tagColor.color}40` }}>
-          {task.tagLabel}
-        </span>
-        <span style={{ fontSize: '0.65rem', color: 'var(--muted2)', fontFamily: 'var(--font-en)', marginRight: 'auto' }}>{task.date}</span>
-        <div style={{ width: 20, height: 20, borderRadius: '50%', background: task.assigneeBg, color: task.assigneeColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.5rem', fontWeight: 700 }}>
-          {task.assignee}
+      {/* AI score & Priority */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+        <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-en)', background: 'rgba(108,99,255,.12)', border: '1px solid rgba(108,99,255,.2)', color: 'var(--accent2)', padding: '0.1rem 0.5rem', borderRadius: 6, fontWeight: 700 }}>
+          AI {task.aiScore}
         </div>
-        {task.column !== 'done' && (
-          <button onClick={e => { e.stopPropagation(); onFocus(); }}
-            style={{ background: 'transparent', border: 'none', color: 'var(--muted2)', cursor: 'pointer', fontSize: '0.65rem', padding: '0.1rem' }}>
-            ⏱️
-          </button>
-        )}
-        <button onClick={e => { e.stopPropagation(); onDelete(); }}
-          style={{ background: 'transparent', border: 'none', color: 'var(--muted2)', cursor: 'pointer', fontSize: '0.65rem', padding: '0.1rem' }}>
-          ✕
-        </button>
+        <div style={{ fontSize: '0.75rem' }}>{PRIORITY_ICON[task.priority]}</div>
+      </div>
+
+      {/* Title */}
+      <div style={{ fontSize: '0.88rem', fontWeight: 600, lineHeight: 1.5, marginBottom: '0.8rem', color: 'var(--text)' }}>
+        {task.title}
+      </div>
+
+      {/* Meta Row */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ width: 22, height: 22, borderRadius: '50%', background: task.assigneeBg, color: task.assigneeColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.55rem', fontWeight: 800, border: '1px solid rgba(255,255,255,0.1)' }}>
+            {task.assignee}
+          </div>
+          <span style={{ fontSize: '0.68rem', color: 'var(--muted2)', fontFamily: 'var(--font-en)' }}>
+            {task.time ? `🕒 ${task.time}` : task.date}
+          </span>
+        </div>
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <span style={{ fontSize: '0.6rem', padding: '0.15rem 0.6rem', borderRadius: 100, fontWeight: 700, background: tagColor.bg, color: tagColor.color, border: `1px solid ${tagColor.color}30` }}>
+            {task.tagLabel}
+          </span>
+          <div style={{ display: 'flex', gap: '0.2rem', marginLeft: '0.2rem' }}>
+            {task.column !== 'done' && (
+              <button onClick={e => { e.stopPropagation(); onFocus(); }}
+                style={{ background: 'transparent', border: 'none', color: 'var(--muted2)', cursor: 'pointer', fontSize: '0.75rem', padding: '0.2rem', transition: 'color .2s' }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--text)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--muted2)'}>
+                ⏱️
+              </button>
+            )}
+            <button onClick={e => { e.stopPropagation(); onDelete(); }}
+              style={{ background: 'transparent', border: 'none', color: 'var(--muted2)', cursor: 'pointer', fontSize: '0.75rem', padding: '0.2rem', transition: 'color .2s' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--coral)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--muted2)'}>
+              ✕
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

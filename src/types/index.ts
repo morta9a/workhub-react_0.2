@@ -50,11 +50,13 @@ export interface Task {
   tagLabel: string;
   priority: TaskPriority;
   aiScore: number;
-  date: string;
+  date: string;       // e.g., '2026-05-10'
+  time?: string;      // e.g., '10:30'
   assignee: string;
   assigneeBg: string;
   assigneeColor: string;
   column: TaskColumn;
+  reminder?: boolean;
 }
 
 // ══════════════════════════════
@@ -290,9 +292,11 @@ export interface Appointment {
   title: string;
   client: string;
   time: string;
+  date?: string; // Standardize with tasks
   day: number;
   type: 'meeting' | 'call' | 'review' | 'other';
   customType?: string;
+  reminder?: boolean;
 }
 
 // ══════════════════════════════
