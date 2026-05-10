@@ -88,8 +88,8 @@ export default function Catalog() {
       <PageHeader
         icon="🏪"
         iconBg="rgba(245,158,11,.12)"
-        title={t('الكاتالوج الرقمي', 'Digital Catalog')}
-        subtitle={t('إدارة منتجاتك وخدماتك بأسلوب احترافي لمشاركتها مع العملاء', 'Manage your products and services professionally to share with clients')}
+        title={t('المستودع الرقمي', 'Digital Warehouse')}
+        subtitle={t('لإدارة منتجاتك وخدماتك', 'To manage your products and services')}
       />
 
       {/* Toolbar */}

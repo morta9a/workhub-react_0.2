@@ -14,7 +14,7 @@ export const NAV_ITEMS: (NavItem & { labelEn: string })[] = [
   { id: 'chatbot',   icon: '💬', labelAr: 'الشات بوت',           labelEn: 'AI Chatbot',       path: '/chatbot',   category: 'ai' },
 
   // ── Business ──
-  { id: 'catalog',   icon: '🏪', labelAr: 'الكاتالوج الرقمي',   labelEn: 'Digital Catalog',  path: '/catalog',   category: 'business' },
+  { id: 'catalog',   icon: '🏪', labelAr: 'المستودع الرقمي',   labelEn: 'Digital Warehouse',  path: '/catalog',   category: 'business' },
   { id: 'monitor',   icon: '🔔', labelAr: 'مراقبة المنافسين',    labelEn: 'Competitor Watch', path: '/monitor',   category: 'business' },
   { id: 'templates', icon: '📝', labelAr: 'النماذج القانونية',   labelEn: 'Legal Templates',  path: '/templates', category: 'business' },
   { id: 'suppliers', icon: '🗺️', labelAr: 'خريطة الموردين',     labelEn: 'Supplier Map',     path: '/suppliers', category: 'business' },
